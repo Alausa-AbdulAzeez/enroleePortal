@@ -2,7 +2,7 @@ import React from "react";
 
 const UserDetails = ({ page }) => {
   return (
-    <div className="m-12 max-sm:mx-2 h-[100%] max-h-[500px] bg-white flex rounded-tl-[100px] max-sm:flex-col">
+    <div className="m-12 max-sm:mx-2 h-[100%] max-h-[500px] bg-white flex rounded-tl-[100px] max-sm:flex-col overflow-y-auto">
       <div className=" w-[200px] h-[200px] bg-slate-100 flex items-center justify-center   rounded-full ">
         <div className="w-[180px] h-[180px] bg-white rounded-full">
           <img

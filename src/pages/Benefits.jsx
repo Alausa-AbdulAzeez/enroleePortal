@@ -8,6 +8,7 @@ const Benefits = () => {
       <Sidebar />
       <div className="flex-1 h-[100%] bg-slate-100">
         <Topbar title={"My Benefits"} />
+        <div className="mt-5"></div>
       </div>
     </div>
   );
