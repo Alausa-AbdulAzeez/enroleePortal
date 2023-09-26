@@ -27,7 +27,6 @@ const Login = () => {
 
   // FUNCTION TO HNDLE LOGIN INPUT CHANGE
   const handleSetUser = (event, inputType) => {
-    console.log(event.target.value)
     setUser({ ...user, [inputType]: event.target.value })
   }
   // END OF FUNCTION TO HNDLE LOGIN INPUT CHANGE
@@ -89,7 +88,6 @@ const Login = () => {
   // USEEFFECT TO HANDLE BUTTON STATE AS INPUT CHANGES
   useEffect(() => {
     setBtnState()
-    console.log('aa')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
   // END OF USEEFFECT TO HANDLE BUTTON STATE AS INPUT CHANGES
