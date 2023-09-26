@@ -54,7 +54,8 @@ const Login = () => {
     try {
       await publicRequest.post('/Login', user).then((res) => {
         userData = res?.data
-        sessionStorage.setItem('user', userData)
+
+        sessionStorage.setItem('user', JSON.stringify(userData))
         toast.update(toastId.current, {
           render: 'Login succesful! Please wait while we redirect you.',
           type: 'success',
