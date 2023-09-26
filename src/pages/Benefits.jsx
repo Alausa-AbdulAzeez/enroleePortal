@@ -95,60 +95,8 @@ const Benefits = () => {
       // headerClassName: 'super-app-theme--header',
     },
   ]
-  // const columns = [
-  //   {
-  //     field: 'name',
-  //     headerName: 'Name',
-  //     width: 600,
-  //     headerClassName: 'super-app-theme--header',
-  //   },
-  //   {
-  //     field: 'address',
-  //     headerName: 'Address',
-  //     width: 500,
-  //     editable: false,
-  //     headerClassName: 'super-app-theme--header',
-  //   },
 
-  //   {
-  //     field: 'state',
-  //     headerName: 'State',
-  //     width: 150,
-  //     headerClassName: 'super-app-theme--header',
-  //   },
-  // ]
-
-  const tableData = [
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-    { name: 'a HOSPITAL', address: 'Lagos', state: 'Lagos' },
-  ]
-
+  //USE EFFECT TO CALL FUNCTION THAT FETCHES BENEFITS LIST AS PAGE LOADS
   useEffect(() => {
     getBenefits()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -204,21 +152,6 @@ const Benefits = () => {
             </Box>
           </div>
         </div>
-        {/* <div className="m-12 bg-white max-h-[400px] overflow-y-auto max-sm:w-[90%]">
-          <DataGrid
-            rows={tableData}
-            columns={defaultColumns}
-            pageSize={pageSize}
-            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[200, 300, 400]}
-            pagination
-            rowSelection={false}
-            getRowId={(row) =>
-              row?.candidateId ||
-              `${Math.random()}` + Date.now() + `${Math.random()}` + Date.now()
-            }
-          />
-        </div> */}
       </div>
     </div>
   )
