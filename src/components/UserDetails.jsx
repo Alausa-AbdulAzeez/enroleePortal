@@ -20,7 +20,6 @@ const UserDetails = ({ page }) => {
           cancelToken: cancelToken.token,
         })
         .then((response) => {
-          console.log(response?.data);
           sessionStorage.setItem("bands", JSON.stringify(response?.data));
         })
         .catch((err) => {
@@ -38,11 +37,11 @@ const UserDetails = ({ page }) => {
     <div className="m-12 max-sm:mx-2 h-[100%] max-h-[500px] bg-white flex rounded-tl-[100px] max-sm:flex-col overflow-y-auto">
       <div className=" w-[200px] h-[200px] bg-slate-100 flex items-center justify-center   rounded-full ">
         <div className="w-[180px] h-[180px] bg-white rounded-full">
-          {console.log(userDetails)}
-          {console.log(userDetails?.image)}
           <img
             src={
-              userDetails?.image ||
+              `https://lifeworthhmoenrolleeapp.com/image/${
+                userDetails?.image?.split("\\")[3]
+              }` ||
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
             }
             alt=""
