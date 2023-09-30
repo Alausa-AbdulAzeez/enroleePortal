@@ -56,7 +56,7 @@ const Hospitals = () => {
       });
     }
   };
-  // END OF FUNCTION TO GET BENEFITS
+  // END OF FUNCTION TO GET HOSPITALS
 
   // FUNCTION TO FILTER HOSPITALS
   const handleFilterHospitals = (e) => {

@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.blackGradient {
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.377) 0%,
+    rgba(119, 119, 119, 0.267) 100%
+  );
+}
+
