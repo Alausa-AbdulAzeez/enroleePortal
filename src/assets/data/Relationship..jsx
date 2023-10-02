@@ -52,10 +52,10 @@ export const relationship = [
 export const gender = [
   {
     sexCode: "F  ",
-    sexDescription: "FEMALE  ",
+    sexDescription: "FEMALE",
   },
   {
     sexCode: "M ",
-    sexDescription: "MALE ",
+    sexDescription: "MALE",
   },
 ];

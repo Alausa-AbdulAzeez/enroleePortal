@@ -9,6 +9,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { gender, relationship } from "../assets/data/Relationship.";
+import FormDialog from "../components/DeprndantUpdateDialogue";
 
 const Dependants = () => {
   // LOGGED IN USER DETAILS
@@ -47,6 +48,19 @@ const Dependants = () => {
 
   //   DEFAULT TAB VALUE
   const [value, setValue] = React.useState("1");
+
+  // DIALOGUE STATE
+  const [open, setOpen] = React.useState(false);
+
+  // FUNCTIONALITY FOR OPENING AND CLOSING OF DIALOGUE
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  // END OF FUNCTIONALITY FOR OPENING AND CLOSING OF DIALOGUE
 
   // function for handling date chande
   const handleDateChange = (selectedDate) => {
@@ -101,6 +115,8 @@ const Dependants = () => {
           `https://lifeworthhmoenrolleeapp.com/api/userid/dependant?IdEmployee=${userDetails?.id}`
         )
         .then((res) => {
+          console.log(res?.data);
+          console.log(userDetails);
           setDependantsList(res?.data);
           toast.update(toastId.current, {
             render: "Dependants Fetched Sucessfully!",
@@ -184,6 +200,7 @@ const Dependants = () => {
   return (
     <div className="w-full h-screen flex ">
       <ToastContainer />
+      <FormDialog open={open} handleClose={handleClose} />
       <Sidebar />
       <div className="flex-1 h-[100%] bg-slate-100 overflow-y-auto">
         <Topbar title={"My Dependants"} />
@@ -199,309 +216,61 @@ const Dependants = () => {
               </TabList>
             </Box>
             <TabPanel value="1" sx={{ width: "100%" }}>
-              {!dependantsList.length === 0 ? (
+              {dependantsList.length === 0 ? (
                 <div className="font-semibold text-left">
                   User has no Dependant
                 </div>
               ) : (
-                <div className="w-[100%]  flex flex-wrap gap-[20px]">
-                  <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center">
-                    <div className="w-[100px] h-[100px] bg-white  relative ">
-                      <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
-                      <img
-                        src={
-                          `https://lifeworthhmoenrolleeapp.com/image/${
-                            userDetails?.image?.split("\\")[3]
-                          }` ||
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
-                        }
-                        alt=""
-                        className="w-[100%] h-[100%] object-cover bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500 rounded-l-xl"
-                      />
-                    </div>
-                    <div className="ml-3 h-[100%]">
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
+                <div className="w-[100%]  flex flex-wrap gap-[20px] ">
+                  {dependantsList?.map((dependant) => {
+                    return (
+                      <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center relative">
+                        <button
+                          className="absolute  bg-lwPurple bottom-2 text-xs right-4 rounded-md px-2 py-1 text-white flex items-center justify-center"
+                          onClick={handleClickOpen}
+                        >
+                          Update
+                        </button>
+                        <div className="w-[100px] h-[100px] bg-white  relative ">
+                          <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
+                          <img
+                            src={
+                              `https://lifeworthhmoenrolleeapp.com/image/${
+                                dependant?.image?.split("\\")[3]
+                              }` ||
+                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
+                            }
+                            alt=""
+                            className="w-[100%] h-[100%] object-cover bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500 rounded-l-xl"
+                          />
+                        </div>
+                        <div className="ml-3 h-[100%]">
+                          {dependantsList?.map((dependant) => {
+                            return (
+                              <>
+                                <div className="flex items-center">
+                                  <h3 className="font-bold text-gray-700 text-[14px]">
+                                    Enrolee Name:
+                                  </h3>
+                                  <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
+                                    {dependant?.name} {dependant?.fullName}
+                                  </p>
+                                </div>
+                                <div className="flex items-center">
+                                  <h3 className="font-bold text-gray-700 text-[14px]">
+                                    Enrolee Number:
+                                  </h3>
+                                  <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
+                                    {dependant?.employeeNo}
+                                  </p>
+                                </div>
+                              </>
+                            );
+                          })}
+                        </div>
                       </div>
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center">
-                    <div className="w-[100px] h-[100px] bg-white  relative ">
-                      <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
-                      <img
-                        src={
-                          `https://lifeworthhmoenrolleeapp.com/image/${
-                            userDetails?.image?.split("\\")[3]
-                          }` ||
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
-                        }
-                        alt=""
-                        className="w-[100%] h-[100%] object-cover bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500 rounded-l-xl"
-                      />
-                    </div>
-                    <div className="ml-3 h-[100%]">
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center">
-                    <div className="w-[100px] h-[100px] bg-white  relative ">
-                      <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
-                      <img
-                        src={
-                          `https://lifeworthhmoenrolleeapp.com/image/${
-                            userDetails?.image?.split("\\")[3]
-                          }` ||
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
-                        }
-                        alt=""
-                        className="w-[100%] h-[100%] object-cover bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500 rounded-l-xl"
-                      />
-                    </div>
-                    <div className="ml-3 h-[100%]">
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center">
-                    <div className="w-[100px] h-[100px] bg-white  relative ">
-                      <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
-                      <img
-                        src={
-                          `https://lifeworthhmoenrolleeapp.com/image/${
-                            userDetails?.image?.split("\\")[3]
-                          }` ||
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
-                        }
-                        alt=""
-                        className="w-[100%] h-[100%] object-cover bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500 rounded-l-xl"
-                      />
-                    </div>
-                    <div className="ml-3 h-[100%]">
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center">
-                    <div className="w-[100px] h-[100px] bg-white  relative ">
-                      <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
-                      <img
-                        src={
-                          `https://lifeworthhmoenrolleeapp.com/image/${
-                            userDetails?.image?.split("\\")[3]
-                          }` ||
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
-                        }
-                        alt=""
-                        className="w-[100%] h-[100%] object-cover bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500 rounded-l-xl"
-                      />
-                    </div>
-                    <div className="ml-3 h-[100%]">
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center">
-                    <div className="w-[100px] h-[100px] bg-white  relative ">
-                      <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
-                      <img
-                        src={
-                          `https://lifeworthhmoenrolleeapp.com/image/${
-                            userDetails?.image?.split("\\")[3]
-                          }` ||
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
-                        }
-                        alt=""
-                        className="w-[100%] h-[100%] object-cover bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500 rounded-l-xl"
-                      />
-                    </div>
-                    <div className="ml-3 h-[100%]">
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center">
-                    <div className="w-[100px] h-[100px] bg-white  relative ">
-                      <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
-                      <img
-                        src={
-                          `https://lifeworthhmoenrolleeapp.com/image/${
-                            userDetails?.image?.split("\\")[3]
-                          }` ||
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
-                        }
-                        alt=""
-                        className="w-[100%] h-[100%] object-cover bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500 rounded-l-xl"
-                      />
-                    </div>
-                    <div className="ml-3 h-[100%]">
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center">
-                    <div className="w-[100px] h-[100px] bg-white  relative ">
-                      <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
-                      <img
-                        src={
-                          `https://lifeworthhmoenrolleeapp.com/image/${
-                            userDetails?.image?.split("\\")[3]
-                          }` ||
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
-                        }
-                        alt=""
-                        className="w-[100%] h-[100%] object-cover bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500 rounded-l-xl"
-                      />
-                    </div>
-                    <div className="ml-3 h-[100%]">
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center">
-                    <div className="w-[100px] h-[100px] bg-white  relative ">
-                      <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
-                      <img
-                        src={
-                          `https://lifeworthhmoenrolleeapp.com/image/${
-                            userDetails?.image?.split("\\")[3]
-                          }` ||
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
-                        }
-                        alt=""
-                        className="w-[100%] h-[100%] object-cover bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500 rounded-l-xl"
-                      />
-                    </div>
-                    <div className="ml-3 h-[100%]">
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                      <div className="flex items-center">
-                        <h3 className="font-bold text-gray-700 text-[14px]">
-                          Enrolee Name:
-                        </h3>
-                        <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                          Alausa Abdulazeez
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
               )}
             </TabPanel>
