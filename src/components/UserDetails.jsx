@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 const UserDetails = ({ page }) => {
   // LOGGED IN USER DETAILS
   const userDetails = JSON.parse(sessionStorage.getItem("user"));
+  console.log(userDetails);
 
   // BAND TYPES
   const [bands, setBands] = useState([]);

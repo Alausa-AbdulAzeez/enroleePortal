@@ -15,6 +15,9 @@ const Dependants = () => {
   // LOGGED IN USER DETAILS
   const userDetails = JSON.parse(sessionStorage.getItem("user"));
 
+  // UPDATE TAB ACTIVE
+  const [updateTabActive, setUpdateTabActive] = useState(false);
+
   // DATE SELECTION AND CHANGE
   const [startDate, setStartDate] = useState(null);
 
@@ -43,6 +46,16 @@ const Dependants = () => {
     address: "",
   });
 
+  //   DEPENDANT TO BE UPDATED'S INFO
+  const [dependantToBeUpdatedInfo, setDependantToBeUpdatedInfo] = useState({});
+
+  //   DEPENDANT TO BE UPDATED'S INFO
+  const [dependantToBeEditedInfo, setDependantToBeEditedInfo] = useState({
+    name: "",
+    birthDate: "",
+    address: "",
+  });
+
   //   DEPENDANTS
   const [dependantsList, setDependantsList] = useState([]);
 
@@ -53,8 +66,14 @@ const Dependants = () => {
   const [open, setOpen] = React.useState(false);
 
   // FUNCTIONALITY FOR OPENING AND CLOSING OF DIALOGUE
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpen = (dependant) => {
+    // setOpen(true);
+    setUpdateTabActive(true);
+    setValue("3");
+    setDependantToBeUpdatedInfo(dependant);
+    setDependantToBeEditedInfo((prev) => {
+      return { ...prev, name: dependant?.name };
+    });
   };
 
   const handleClose = () => {
@@ -63,11 +82,18 @@ const Dependants = () => {
   // END OF FUNCTIONALITY FOR OPENING AND CLOSING OF DIALOGUE
 
   // function for handling date chande
-  const handleDateChange = (selectedDate) => {
+  const handleDateChange = (selectedDate, actionType) => {
     setStartDate(selectedDate);
-    setDependantInfo((prev) => {
-      return { ...prev, birthDate: selectedDate?.toISOString() };
-    });
+
+    if (actionType === "update") {
+      setDependantToBeEditedInfo((prev) => {
+        return { ...prev, birthDate: selectedDate?.toISOString() };
+      });
+    } else {
+      setDependantInfo((prev) => {
+        return { ...prev, birthDate: selectedDate?.toISOString() };
+      });
+    }
   };
   // end of function for handling date chande
 
@@ -101,6 +127,14 @@ const Dependants = () => {
     }
   };
   //   END OF FUNCTION TO HANDLE INPUT CHANGE
+
+  //   FUNCTION TO HANDLE INPUT CHANGE
+  const handledependantToBeUpdatedInfo = (e, dataName, data) => {
+    setDependantToBeEditedInfo((prev) => {
+      return { ...prev, [dataName]: e.target.value };
+    });
+  };
+  //   END OF FUNCTION TO HANDLE DEPENDANT TO BE UPDATED INPUT CHANGE
 
   // FUNCTION TO GET HOSPITALS
   const getDependants = async () => {
@@ -145,6 +179,7 @@ const Dependants = () => {
   // FUNCTION TO HANDLE TAB CHANGE
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setUpdateTabActive(false);
   };
   // END OF FUNCTION TO HANDLE TAB CHANGE
 
@@ -191,6 +226,57 @@ const Dependants = () => {
   };
   //   END OF FUNCTION TO HANDLE DEPENDANT CREATION
 
+  //   FUNCTION TO HANDLE DEPENDANT CREATION
+  const handleDependantUpdate = async (e) => {
+    console.log(dependantToBeEditedInfo);
+    e.preventDefault();
+
+    toastId.current = toast("Please wait...", {
+      autoClose: 2500,
+      isLoading: true,
+    });
+
+    setDisableSubmitBtn(true);
+
+    try {
+      await publicRequest
+        .put(
+          `Id/UpdateDependant/?IdDependant=${dependantToBeUpdatedInfo?.idDependant}`,
+          dependantToBeEditedInfo
+        )
+        .then(() => {
+          toast.update(toastId.current, {
+            render:
+              "Dependant updated succesfully! Please wait while the pae reloads.",
+            type: "success",
+            isLoading: false,
+            autoClose: 2500,
+          });
+          setDisableSubmitBtn(false);
+          setInputState((prev) => !prev);
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 2500);
+        });
+    } catch (error) {
+      console.log(error.response);
+      toast.update(toastId.current, {
+        type: "error",
+        autoClose: 2500,
+        isLoading: false,
+        render: `${
+          error?.response?.data?.title ||
+          error?.response?.data?.description ||
+          error?.message ||
+          "Something went wrong, please try again"
+        }`,
+      });
+      setDisableSubmitBtn(false);
+    }
+  };
+  //   END OF FUNCTION TO HANDLE DEPENDANT CREATION
+
   // USE EFFECT TO CALL FUNCTION THAT FETCHES DEPENDANTS LIST AS PAGE LOADS
   useEffect(() => {
     getDependants();
@@ -213,6 +299,7 @@ const Dependants = () => {
               >
                 <Tab label="Dependants List" value="1" />
                 <Tab label="Add Dependant" value="2" />
+                {updateTabActive && <Tab label="Update Dependant" value="3" />}
               </TabList>
             </Box>
             <TabPanel value="1" sx={{ width: "100%" }}>
@@ -222,12 +309,15 @@ const Dependants = () => {
                 </div>
               ) : (
                 <div className="w-[100%]  flex flex-wrap gap-[20px] ">
-                  {dependantsList?.map((dependant) => {
+                  {dependantsList?.map((dependant, index) => {
                     return (
-                      <div className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center relative">
+                      <div
+                        key={index}
+                        className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center relative"
+                      >
                         <button
                           className="absolute  bg-lwPurple bottom-2 text-xs right-4 rounded-md px-2 py-1 text-white flex items-center justify-center"
-                          onClick={handleClickOpen}
+                          onClick={() => handleClickOpen(dependant)}
                         >
                           Update
                         </button>
@@ -245,28 +335,22 @@ const Dependants = () => {
                           />
                         </div>
                         <div className="ml-3 h-[100%]">
-                          {dependantsList?.map((dependant) => {
-                            return (
-                              <>
-                                <div className="flex items-center">
-                                  <h3 className="font-bold text-gray-700 text-[14px]">
-                                    Enrolee Name:
-                                  </h3>
-                                  <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                                    {dependant?.name} {dependant?.fullName}
-                                  </p>
-                                </div>
-                                <div className="flex items-center">
-                                  <h3 className="font-bold text-gray-700 text-[14px]">
-                                    Enrolee Number:
-                                  </h3>
-                                  <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
-                                    {dependant?.employeeNo}
-                                  </p>
-                                </div>
-                              </>
-                            );
-                          })}
+                          <div className="flex items-center">
+                            <h3 className="font-bold text-gray-700 text-[14px]">
+                              Enrolee Name:
+                            </h3>
+                            <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
+                              {dependant?.name} {dependant?.fullName}
+                            </p>
+                          </div>
+                          <div className="flex items-center">
+                            <h3 className="font-bold text-gray-700 text-[14px]">
+                              Enrolee Number:
+                            </h3>
+                            <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
+                              {dependant?.employeeNo}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     );
@@ -342,7 +426,9 @@ const Dependants = () => {
                 />
                 <DatePicker
                   selected={startDate}
-                  onChange={(selectedDate) => handleDateChange(selectedDate)}
+                  onChange={(selectedDate) =>
+                    handleDateChange(selectedDate, "creation")
+                  }
                   dateFormat="MMMM d, yyyy"
                   className="datePicker w-[100%] bg-slate-100 p-2 rounded-md cursor-pointer"
                   showMonthDropdown
@@ -382,6 +468,68 @@ const Dependants = () => {
                   className="hover:bg-lwPurple  bg-lwLightPurple text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px]"
                 >
                   Submit
+                </button>
+              </form>
+            </TabPanel>
+            <TabPanel value="3" sx={{ width: "100%" }}>
+              <form
+                className="w-[100%] flex flex-wrap gap-5"
+                onSubmit={handleCreateDependant}
+              >
+                <>
+                  <TextField
+                    id="outlined-password-input"
+                    type="text"
+                    autoComplete="current-password"
+                    size={"small"}
+                    key={inputState}
+                    disabled
+                    value={dependantToBeUpdatedInfo?.surname}
+                  />
+                </>
+                <>
+                  <TextField
+                    id="outlined-password-input"
+                    label="Other Names"
+                    type="text"
+                    autoComplete="current-password"
+                    size={"small"}
+                    onChange={(e) => handledependantToBeUpdatedInfo(e, "name")}
+                    key={inputState}
+                    value={dependantToBeEditedInfo?.name}
+                    inputLabelProps={{ shrink: true }}
+                  />
+                </>
+                <>
+                  <TextField
+                    id="outlined-password-input"
+                    label="Address"
+                    type="text"
+                    autoComplete="current-password"
+                    size={"small"}
+                    onChange={(e) =>
+                      handledependantToBeUpdatedInfo(e, "address")
+                    }
+                    key={inputState}
+                  />
+                </>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(selectedDate) =>
+                    handleDateChange(selectedDate, "update")
+                  }
+                  dateFormat="MMMM d, yyyy"
+                  className="datePicker w-[100%] bg-slate-100 p-2 rounded-md cursor-pointer"
+                  showMonthDropdown
+                  showYearDropdown
+                  placeholderText="Date of Birth"
+                />
+
+                <button
+                  onClick={handleDependantUpdate}
+                  className="hover:bg-lwPurple  bg-lwLightPurple text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px]"
+                >
+                  Update
                 </button>
               </form>
             </TabPanel>
