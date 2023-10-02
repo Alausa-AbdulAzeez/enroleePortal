@@ -3,15 +3,44 @@ import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 import { ToastContainer, toast } from "react-toastify";
 import { publicRequest } from "../functions/requestMethods";
-import { Box, Tab, TextField } from "@mui/material";
+import { Autocomplete, Box, Tab, TextField } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { gender, relationship } from "../assets/data/Relationship.";
 
 const Dependants = () => {
   // LOGGED IN USER DETAILS
   const userDetails = JSON.parse(sessionStorage.getItem("user"));
+
+  // DATE SELECTION AND CHANGE
+  const [startDate, setStartDate] = useState(null);
+
+  //   TOAST ID
+  const toastId = React.useRef(null);
+
+  //  THE STATE OF THE SUBMIT BUTTONS
+  const [disableSubmitBtn, setDisableSubmitBtn] = useState(false);
+
+  //   STATE OF MUI INPUTS
+  const [inputState, setInputState] = useState(false);
+
+  // FILE SELECTION AND CHANGE
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  //   DEPENDANT'S INFO
+  const [dependantInfo, setDependantInfo] = useState({
+    idEmployee: userDetails?.id,
+    surname: "",
+    name: "",
+    birthDate: "",
+    relationType: "",
+    employeeNo: userDetails?.employeeNo,
+    imageFileName: "",
+    sex: "",
+    address: "",
+  });
 
   //   DEPENDANTS
   const [dependantsList, setDependantsList] = useState([]);
@@ -19,24 +48,12 @@ const Dependants = () => {
   //   DEFAULT TAB VALUE
   const [value, setValue] = React.useState("1");
 
-  // TOAST ID
-  const toastId = useRef(null);
-
-  // DATE SELECTION AND CHANGE
-  const [startDate, setStartDate] = useState(null);
-
-  // FILE SELECTION AND CHANGE
-  const [selectedFile, setSelectedFile] = useState(null);
-
   // function for handling date chande
   const handleDateChange = (selectedDate) => {
     setStartDate(selectedDate);
-    // setScheduleInfo((prev) => {
-    //   return {
-    //     ...prev,
-    //     appointmentdate: selectedDate?.toISOString(),
-    //   };
-    // });
+    setDependantInfo((prev) => {
+      return { ...prev, birthDate: selectedDate?.toISOString() };
+    });
   };
   // end of function for handling date chande
 
@@ -44,8 +61,32 @@ const Dependants = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
+    setDependantInfo((prev) => {
+      return { ...prev, imageFileName: file?.name };
+    });
   };
   //   END OF FUNCTION FOR HANDLING FILE CHANGE
+
+  //   FUNCTION TO HANDLE INPUT CHANGE
+  const handledependantInfo = (e, dataName, data) => {
+    if (dataName === "relationType") {
+      setDependantInfo((prev) => {
+        return {
+          ...prev,
+          relationType: data?.description,
+        };
+      });
+    } else if (dataName === "sex") {
+      setDependantInfo((prev) => {
+        return { ...prev, sex: data?.sexDescription };
+      });
+    } else {
+      setDependantInfo((prev) => {
+        return { ...prev, [dataName]: e.target.value };
+      });
+    }
+  };
+  //   END OF FUNCTION TO HANDLE INPUT CHANGE
 
   // FUNCTION TO GET HOSPITALS
   const getDependants = async () => {
@@ -91,6 +132,49 @@ const Dependants = () => {
   };
   // END OF FUNCTION TO HANDLE TAB CHANGE
 
+  //   FUNCTION TO HANDLE DEPENDANT CREATION
+  const handleCreateDependant = async (e) => {
+    console.log(dependantInfo);
+    e.preventDefault();
+
+    toastId.current = toast("Please wait...", {
+      autoClose: 2500,
+      isLoading: true,
+    });
+
+    setDisableSubmitBtn(true);
+
+    try {
+      await publicRequest
+        .post("/userid/NewDependant", dependantInfo)
+        .then(() => {
+          toast.update(toastId.current, {
+            render: "Dependant added succesfully!",
+            type: "success",
+            isLoading: false,
+            autoClose: 2500,
+          });
+          setDisableSubmitBtn(false);
+          setInputState((prev) => !prev);
+        });
+    } catch (error) {
+      console.log(error.response);
+      toast.update(toastId.current, {
+        type: "error",
+        autoClose: 2500,
+        isLoading: false,
+        render: `${
+          error?.response?.data?.title ||
+          error?.response?.data?.description ||
+          error?.message ||
+          "Something went wrong, please try again"
+        }`,
+      });
+      setDisableSubmitBtn(false);
+    }
+  };
+  //   END OF FUNCTION TO HANDLE DEPENDANT CREATION
+
   // USE EFFECT TO CALL FUNCTION THAT FETCHES DEPENDANTS LIST AS PAGE LOADS
   useEffect(() => {
     getDependants();
@@ -115,7 +199,7 @@ const Dependants = () => {
               </TabList>
             </Box>
             <TabPanel value="1" sx={{ width: "100%" }}>
-              {dependantsList.length === 0 ? (
+              {!dependantsList.length === 0 ? (
                 <div className="font-semibold text-left">
                   User has no Dependant
                 </div>
@@ -422,13 +506,18 @@ const Dependants = () => {
               )}
             </TabPanel>
             <TabPanel value="2" sx={{ width: "100%" }}>
-              <form action="" className="w-[100%] flex flex-wrap gap-5">
+              <form
+                className="w-[100%] flex flex-wrap gap-5"
+                onSubmit={handleCreateDependant}
+              >
                 <TextField
                   id="outlined-password-input"
                   label="Surname"
                   type="text"
                   autoComplete="current-password"
                   size={"small"}
+                  onChange={(e) => handledependantInfo(e, "surname")}
+                  key={inputState}
                 />
                 <TextField
                   id="outlined-password-input"
@@ -436,28 +525,51 @@ const Dependants = () => {
                   type="text"
                   autoComplete="current-password"
                   size={"small"}
+                  onChange={(e) => handledependantInfo(e, "name")}
+                  key={inputState}
                 />
+                <div className="w-[223px]">
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={relationship}
+                    key={inputState}
+                    getOptionLabel={(option) => `${option.description}`}
+                    onChange={(e, option) =>
+                      handledependantInfo(e, "relationType", option)
+                    }
+                    size={"small"}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Relationship Type" />
+                    )}
+                  />
+                </div>
 
-                <TextField
-                  id="outlined-password-input"
-                  label="Relationship"
-                  type="text"
-                  autoComplete="current-password"
-                  size={"small"}
-                />
-                <TextField
-                  id="outlined-password-input"
-                  label="Gender"
-                  type="text"
-                  autoComplete="current-password"
-                  size={"small"}
-                />
+                <div className="w-[223px]">
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={gender}
+                    key={inputState}
+                    getOptionLabel={(option) => `${option.sexDescription}`}
+                    onChange={(e, option) =>
+                      handledependantInfo(e, "sex", option)
+                    }
+                    size={"small"}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Gender" required />
+                    )}
+                  />
+                </div>
+
                 <TextField
                   id="outlined-password-input"
                   label="Address"
                   type="text"
                   autoComplete="current-password"
                   size={"small"}
+                  onChange={(e) => handledependantInfo(e, "address")}
+                  key={inputState}
                 />
                 <DatePicker
                   selected={startDate}
