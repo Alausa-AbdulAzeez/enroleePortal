@@ -9,3 +9,13 @@
   );
 }
 
+.MuiAutocomplete-hasPopupIcon .MuiAutocomplete-inputRoot {
+  background-color: 'red' !important;
+}
+.MuiAutocomplete-endAdornment {
+  right: '0px !important';
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: '#1E5EF3';
+}
