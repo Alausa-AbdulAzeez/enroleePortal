@@ -27,7 +27,9 @@ export default function BasicModal({
         aria-describedby='modal-modal-description'
         className='h-[100%] w-[100%] flex items-center justify-center '
       >
-        {<FeedbackModalComponent />}
+        <>
+          <FeedbackModalComponent />
+        </>
       </Modal>
     </div>
   )
