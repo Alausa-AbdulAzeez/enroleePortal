@@ -6,6 +6,8 @@ import { Box, TextField } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import { publicRequest } from '../functions/requestMethods'
 import FormDialog from '../components/DeprndantUpdateDialogue'
+import BasicModal from '../components/Modal'
+import FeedbackModalComponent from '../components/feedbackModalComponent'
 
 const Hospitals = () => {
   // BAND TYPE
@@ -119,7 +121,11 @@ const Hospitals = () => {
   return (
     <div className='w-full h-screen flex '>
       <ToastContainer />
-      <FormDialog open={open} handleClose={handleClose} />
+      <BasicModal
+        open={open}
+        handleClose={handleClose}
+        FeedbackModalComponent={FeedbackModalComponent}
+      />
       <Sidebar />
       <div className='flex-1 h-[100%] bg-slate-100 overflow-y-auto'>
         <Topbar title={'My Hospitals'} />
