@@ -7,7 +7,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { publicRequest } from "../functions/requestMethods";
 import FormDialog from "../components/DeprndantUpdateDialogue";
 import BasicModal from "../components/Modal";
-import FeedbackModalComponent from "../components/feedbackModalComponent";
+import FeedbackModalComponent from "../components/FeedbackModalComponent";
 
 const Hospitals = () => {
   // BAND TYPE
