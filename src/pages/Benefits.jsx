@@ -37,7 +37,6 @@ const Benefits = () => {
         .get(`/Product/Benefit?ID_Product=${productId}`)
         .then((res) => {
           const values = res?.data[0]?.benefits?.split(",");
-          console.log(res?.data);
 
           const benefitsArray = values?.map((value) => ({
             benefit: value.trim(),
