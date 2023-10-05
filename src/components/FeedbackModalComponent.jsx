@@ -1,11 +1,20 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { feedbackRatings } from "../assets/data/Relationship.";
-import { useState } from "react";
+import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-datepicker/dist/react-datepicker.css";
+import { publicRequest } from "../functions/requestMethods";
 
 const FeedbackModalComponent = ({ selectedProvider, handleClose }) => {
   // DATE
   const today = new Date();
   const formattedDate = today.toISOString();
+
+  //  THE STATE OF THE SUBMIT BUTTONS
+  const [disableSubmitBtn, setDisableSubmitBtn] = useState(false);
+
+  //   TOAST ID
+  const toastId = React.useRef(null);
 
   // FEEDBACK DATA
   const [feedbackData, setFeedbackData] = useState({
@@ -31,8 +40,42 @@ const FeedbackModalComponent = ({ selectedProvider, handleClose }) => {
   // END OF FUNCTION TO HANDLE FEEDBACK DATA CHANGE
 
   // FUNCTION TO HANDLE FEEDBACK SUBMISSION
-  const handleSendFeedback = () => {
-    console.log(feedbackData);
+  const handleSendFeedback = async (e) => {
+    e.preventDefault();
+
+    toastId.current = toast("Please wait...", {
+      autoClose: 2500,
+      isLoading: true,
+    });
+
+    setDisableSubmitBtn(true);
+
+    try {
+      await publicRequest.post("/Feedback", feedbackData).then(() => {
+        toast.update(toastId.current, {
+          render: "Feedback sent succesfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: 2500,
+        });
+        setDisableSubmitBtn(false);
+        handleClose();
+      });
+    } catch (error) {
+      console.log(error.response);
+      toast.update(toastId.current, {
+        type: "error",
+        autoClose: 2500,
+        isLoading: false,
+        render: `${
+          error?.response?.data?.title ||
+          error?.response?.data?.description ||
+          error?.message ||
+          "Something went wrong, please try again"
+        }`,
+      });
+      setDisableSubmitBtn(false);
+    }
   };
   // END OF FUNCTION TO HANDLE FEEDBACK SUBMISSION
 
