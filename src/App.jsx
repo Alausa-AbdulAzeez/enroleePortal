@@ -7,6 +7,7 @@ import Benefits from "./pages/Benefits";
 import Hospitals from "./pages/Hospitals";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Dependants from "./pages/Dependants";
+import RegisterEnrolee from "./pages/RegisterEnrolee";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/dependants" element={<Dependants />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/registerEnrolee" element={<RegisterEnrolee />} />
       </Routes>
     </BrowserRouter>
   );

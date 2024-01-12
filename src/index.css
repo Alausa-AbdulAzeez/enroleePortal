@@ -8,3 +8,7 @@
     rgba(119, 119, 119, 0.267) 100%
   );
 }
+
+* {
+  font-family: "Nunito", sans-serif;
+}
