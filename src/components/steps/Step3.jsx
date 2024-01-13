@@ -218,7 +218,7 @@ const Step3 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
         <div className="flex justify-end gap-[20px] mt-[20px]">
           <button
             type="submit"
-            onClick={() => handlePrev("enroleesDetails")}
+            onClick={() => handlePrev("spouse")}
             className="hover:bg-gray-300 border hover:text-white hover:border-none border-gray-500  text-gray-500 py-2 px-4 rounded-md h-[40px] self-end w-[120px]"
           >
             Previous
