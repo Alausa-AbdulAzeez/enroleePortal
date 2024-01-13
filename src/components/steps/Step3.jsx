@@ -11,7 +11,7 @@ const Step3 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
   return (
     <AnimatePresence>
       <motion.form
-        className=" flex flex-col bg-white mx-32 p-5 rounded-sm overflow-y-auto mb-[50px] gap-[20px]"
+        className=" flex flex-col bg-white mx-32 max-md:mx-2 p-5 rounded-sm overflow-y-auto mb-[50px] gap-[20px]"
         // onSubmit={handleCreateDependant}
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -25,7 +25,7 @@ const Step3 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
         {dependants?.map((dependant, index) => (
           <>
             <h1 className="font-semibold">Dependant {index + 1}</h1>
-            <div className="flex flex-wrap gap-5 items-center">
+            <div className="flex flex-wrap gap-5 items-center max-md:flex-col max-md:items-stretch">
               <TextField
                 id="outlined-password-input"
                 label="Surname"
@@ -86,7 +86,7 @@ const Step3 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
               </div>
             </div>
 
-            <div className="w-full flex gap-[20px]">
+            <div className="w-full flex gap-[20px] max-md:flex-col">
               <TextField
                 id="outlined-password-input"
                 label="Phone number"
@@ -106,7 +106,7 @@ const Step3 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
                 // key={inputState}
               />
             </div>
-            <div className="w-full flex gap-[20px]">
+            <div className="w-full flex gap-[20px] max-md:flex-col">
               <div className="flex-[2]">
                 <Autocomplete
                   disablePortal
@@ -123,8 +123,24 @@ const Step3 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
                   )}
                 />
               </div>
+              <div className="flex-1">
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={relationship}
+                  // key={inputState}
+                  getOptionLabel={(option) => `${option.description}`}
+                  // onChange={(e, option) =>
+                  //   handledependantInfo(e, "relationType", option)
+                  // }
+                  size={"small"}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Relationship" />
+                  )}
+                />
+              </div>
             </div>
-            <div className="w-full flex gap-[20px] mb-[40px]">
+            <div className="w-full flex gap-[20px] mb-[40px] max-md:flex-col">
               <div className="flex-1">
                 <Autocomplete
                   disablePortal

@@ -79,7 +79,7 @@ const RegisterEnrolee = () => {
 
   return (
     <div className="bg-slate-100 h-[100vh] overflow-y-auto">
-      <div className="h-[55px] bg-white w-[100%] px-12 flex items-center justify-between max-sm:justify-center sticky top-0 z-10">
+      <div className="h-[55px] bg-white w-[100%] px-12 max-md:px-2 flex items-center justify-between sticky top-0 z-10">
         <div className=" h-[55px] flex items-center justify-center ">
           <h3 className="font-bold text-lg text-lwOrange mr-2">LifeWORTH</h3>
           <img src={Logo} alt="logo" className=" w-[30px] h-[30px] " />
@@ -88,13 +88,13 @@ const RegisterEnrolee = () => {
           Enrolee Registration
         </h3>
       </div>
-      <div className="bg-white text-gray-700 mx-32 mt-5 rounded-md p-5 mb-[15px]">
+      <div className="bg-white text-gray-700 mx-32 max-md:mx-2 mt-5 rounded-md p-5 mb-[15px]">
         <div className="">Dear enrolee,</div>
         <div className="mb-[20px]">
           Welcome to Lifeworth's online registration portal. To complete your
           registration, kindly select you company, and input your name
         </div>
-        <div className="flex gap-[20px] mt-[10px]">
+        <div className="flex gap-[20px] mt-[10px] max-md:flex-col">
           <TextField
             id="outlined-password-input"
             label="Fullname"
@@ -104,7 +104,7 @@ const RegisterEnrolee = () => {
             // onChange={(e) => handledependantInfo(e, "surname")}
             // key={inputState}
           />
-          <div className="w-[223px]">
+          <div className="w-[223px] max-md:w-full">
             <Autocomplete
               disablePortal
               id="combo-box-demo"

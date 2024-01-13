@@ -9,7 +9,7 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
   return (
     <AnimatePresence>
       <motion.form
-        className=" flex flex-col bg-white mx-32 p-5 rounded-sm overflow-y-auto mb-[50px] gap-[20px]"
+        className=" flex flex-col bg-white mx-32 max-md:mx-2 p-5 rounded-sm overflow-y-auto mb-[50px] gap-[20px]"
         // onSubmit={handleCreateDependant}
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -21,7 +21,7 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
           <h1 className="font-extrabold text-blue-500">Step 1/3</h1>
         </div>
 
-        <div className="flex flex-wrap gap-5 items-center">
+        <div className="flex flex-wrap gap-5 items-center max-md:flex-col max-md:items-stretch">
           <TextField
             id="outlined-password-input"
             label="Surname"
@@ -93,7 +93,7 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             // key={inputState}
           />
         </div>
-        <div className="w-full flex gap-[20px]">
+        <div className="w-full flex gap-[20px] max-md:flex-col">
           <TextField
             id="outlined-password-input"
             label="Occupation"
@@ -113,7 +113,7 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             // key={inputState}
           />
         </div>
-        <div className="w-full">
+        <div className="w-full max-md:flex-col">
           <TextField
             id="outlined-password-input"
             label="Address of employer"
@@ -125,7 +125,7 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             // key={inputState}
           />
         </div>
-        <div className="w-full flex gap-[20px]">
+        <div className="w-full flex gap-[20px] max-md:flex-col">
           <TextField
             id="outlined-password-input"
             label="Phone number"
@@ -145,7 +145,7 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             // key={inputState}
           />
         </div>
-        <div className="w-full flex gap-[20px]">
+        <div className="w-full flex gap-[20px] max-md:flex-col">
           <div className="flex-[2]">
             <Autocomplete
               disablePortal
@@ -179,7 +179,7 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             />
           </div>
         </div>
-        <div className="w-full flex gap-[20px]">
+        <div className="w-full flex gap-[20px] max-md:flex-col">
           <div className="flex-1">
             <Autocomplete
               disablePortal

@@ -9,7 +9,7 @@ const Step2 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
   return (
     <AnimatePresence>
       <motion.form
-        className=" flex flex-col bg-white mx-32 p-5 rounded-sm overflow-y-auto mb-[50px] gap-[20px]"
+        className=" flex flex-col bg-white mx-32 max-md:mx-2 p-5 rounded-sm overflow-y-auto mb-[50px] gap-[20px]"
         // onSubmit={handleCreateDependant}
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -20,7 +20,7 @@ const Step2 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
           <h1 className="font-bold">Spouse's details</h1>
           <h1 className="font-extrabold text-blue-500">Step 2/3</h1>
         </div>
-        <div className="flex flex-wrap gap-5 items-center">
+        <div className="flex flex-wrap gap-5 items-center max-md:flex-col max-md:items-stretch">
           <TextField
             id="outlined-password-input"
             label="Surname"
@@ -81,7 +81,7 @@ const Step2 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
           </div>
         </div>
 
-        <div className="w-full flex gap-[20px]">
+        <div className="w-full flex gap-[20px] max-md:flex-col">
           <TextField
             id="outlined-password-input"
             label="Phone number"
@@ -119,7 +119,7 @@ const Step2 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
             />
           </div>
         </div>
-        <div className="w-full flex gap-[20px]">
+        <div className="w-full flex gap-[20px] max-md:flex-col">
           <div className="flex-1">
             <Autocomplete
               disablePortal
