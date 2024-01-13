@@ -17,7 +17,7 @@ const Step2 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
         transition={{ duration: 0.4 }}
       >
         <div className="flex justify-between">
-          <h1 className="font-bold">Spouse</h1>
+          <h1 className="font-bold">Spouse's details</h1>
           <h1 className="font-extrabold text-blue-500">Step 2/3</h1>
         </div>
         <div className="flex flex-wrap gap-5 items-center">
@@ -53,7 +53,7 @@ const Step2 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
           />
           <div className="relative flex-1">
             <label className="text-xs font-medium text-sky-800 absolute -bottom-[15px]">
-              Select enrolee's passport photograph:
+              Select spouse's passport photograph:
             </label>
             <div className="relative border border-gray-300 rounded-md h-[40px]  min-w-[222px] w-auto">
               <input
@@ -193,7 +193,7 @@ const Step2 = ({ handleDateChange, startDate, handleNext, handlePrev }) => {
           <button
             type="submit"
             className="hover:bg-gray-600   bg-gray-400 text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px]"
-            onClick={() => handleNext("pastMedicalHistory")}
+            onClick={() => handleNext("dependant")}
           >
             Next
           </button>
