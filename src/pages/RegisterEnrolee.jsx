@@ -51,12 +51,24 @@ const RegisterEnrolee = () => {
           />
         );
 
-      case "pastMedicalHistory":
-        return <Step2 handleNext={handleNext} handlePrev={handlePrev} />;
       case "spouse":
-        return <Step3 handleNext={handleNext} handlePrev={handlePrev} />;
+        return (
+          <Step2
+            handleNext={handleNext}
+            handlePrev={handlePrev}
+            handleDateChange={handleDateChange}
+            startDate={startDate}
+          />
+        );
       case "dependant":
-        return <Step4 handleNext={handleNext} handlePrev={handlePrev} />;
+        return (
+          <Step3
+            handleNext={handleNext}
+            handlePrev={handlePrev}
+            handleDateChange={handleDateChange}
+            startDate={startDate}
+          />
+        );
       // Additional cases for recovery options, confirmation, and verification steps
 
       default:
