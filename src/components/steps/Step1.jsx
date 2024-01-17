@@ -3,9 +3,70 @@ import { AnimatePresence, motion } from "framer-motion";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { Autocomplete, TextField } from "@mui/material";
-import { relationship } from "../../assets/data/Relationship.";
+import {
+  bloodGroup,
+  gender,
+  genotype,
+  relationship,
+} from "../../assets/data/Relationship.";
 
-const Step1 = ({ handleDateChange, startDate, handleNext }) => {
+const Step1 = ({
+  startDate,
+  handleNext,
+  fetchedEnrolee,
+  setEnroleesDetails,
+  enroleesDetails,
+  setStartDate,
+  setSelectedFile,
+  selectedFile,
+}) => {
+  // function for handling date chande
+  const handleDateChange = (selectedDate) => {
+    setStartDate(selectedDate);
+    setEnroleesDetails((prev) => {
+      return { ...prev, dateOfBrith: selectedDate?.toISOString() };
+    });
+  };
+  // end of function for handling date chande
+
+  //   FUNCTION FOR HANDLING FILE CHANGE
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+    setEnroleesDetails((prev) => {
+      return { ...prev, imageFileName: file?.name };
+    });
+  };
+  //   END OF FUNCTION FOR HANDLING FILE CHANGE
+
+  //   FUNCTION TO HANDLE INPUT CHANGE
+  const handleEnroleeInfo = (e, dataName, data) => {
+    if (dataName === "genotype") {
+      setEnroleesDetails((prev) => {
+        return {
+          ...prev,
+          genotype: data?.code,
+        };
+      });
+    } else if (dataName === "bloodGroup") {
+      setEnroleesDetails((prev) => {
+        return {
+          ...prev,
+          bloodGroup: data?.code,
+        };
+      });
+    } else if (dataName === "sex") {
+      setEnroleesDetails((prev) => {
+        return { ...prev, sex: data?.sexDescription };
+      });
+    } else {
+      setEnroleesDetails((prev) => {
+        return { ...prev, [dataName]: e.target.value };
+      });
+    }
+  };
+  //   END OF FUNCTION TO HANDLE INPUT CHANGE
+
   return (
     <AnimatePresence>
       <motion.form
@@ -18,54 +79,63 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
       >
         <div className="flex justify-between">
           <h1 className="font-bold">Enrolee's details</h1>
-          <h1 className="font-extrabold text-blue-500">Step 1/3</h1>
+          {/* <h1 className="font-extrabold text-blue-500">Step 1/3</h1> */}
         </div>
 
         <div className="flex flex-wrap gap-5 items-center max-md:flex-col max-md:items-stretch">
           <TextField
             id="outlined-password-input"
-            label="Surname"
+            label={`${
+              fetchedEnrolee?.[0]?.surname
+                ? fetchedEnrolee?.[0]?.surname
+                : " Surname"
+            }`}
+            disabled
             type="text"
             autoComplete="current-password"
             size={"small"}
             style={{ flex: 1 }}
-            // onChange={(e) => handledependantInfo(e, "surname")}
+            // onChange={(e) => handleEnroleeInfo(e, "surname")}
             // key={inputState}
           />
-          <TextField
+          {/* <TextField
             id="outlined-password-input"
             label="Middle name"
             type="text"
             autoComplete="current-password"
             size={"small"}
             style={{ flex: 1 }}
-            // onChange={(e) => handledependantInfo(e, "surname")}
-            // key={inputState}
-          />
+            onChange={(e) => handleEnroleeInfo(e, "surname")}
+          /> */}
           <TextField
-            id="outlined-password-input"
-            label="Other Name"
+            id="fullName"
+            label={`${
+              fetchedEnrolee?.[0]?.fullName
+                ? fetchedEnrolee?.[0]?.fullName
+                : " Fullname"
+            }`}
+            disabled
             type="text"
-            autoComplete="current-password"
+            autoComplete="Fullname"
             size={"small"}
             style={{ flex: 1 }}
-            // onChange={(e) => handledependantInfo(e, "name")}
+            // onChange={(e) => handleEnroleeInfo(e, "name")}
             // key={inputState}
           />
           <div className="relative flex-1">
             <label className="text-xs font-medium text-sky-800 absolute -bottom-[15px]">
               Select enrolee's passport photograph:
             </label>
-            <div className="relative border border-gray-300 rounded-md h-[40px]  min-w-[222px] w-auto">
+            <div className="relative border border-gray-300 rounded-md h-[40px]  min-w-[222px] w-auto items-center flex px-[30px]">
               <input
                 type="file"
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 placeholder="Kindly attach enrolee's image"
-                // onChange={handleFileChange}
+                onChange={handleFileChange}
                 id="fileInput"
               />
               <span className="text-gray-500">
-                {/* {selectedFile ? selectedFile.name : "No file chosen"} */}
+                {selectedFile ? selectedFile.name : "No file chosen"}
               </span>
               <div className="absolute inset-y-0 right-0 flex items-center">
                 <button
@@ -89,18 +159,18 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             autoComplete="current-password"
             size={"small"}
             style={{ width: "100%" }}
-            // onChange={(e) => handledependantInfo(e, "address")}
+            onChange={(e) => handleEnroleeInfo(e, "address01")}
             // key={inputState}
           />
         </div>
-        <div className="w-full flex gap-[20px] max-md:flex-col">
+        {/* <div className="w-full flex gap-[20px] max-md:flex-col">
           <TextField
             id="outlined-password-input"
             label="Occupation"
             type="text"
             size={"small"}
             style={{ flex: 1 }}
-            // onChange={(e) => handledependantInfo(e, "address")}
+            // onChange={(e) => handleEnroleeInfo(e, "address")}
             // key={inputState}
           />
           <TextField
@@ -109,11 +179,11 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             type="text"
             size={"small"}
             style={{ flex: 1 }}
-            // onChange={(e) => handledependantInfo(e, "address")}
+            // onChange={(e) => handleEnroleeInfo(e, "address")}
             // key={inputState}
           />
-        </div>
-        <div className="w-full max-md:flex-col">
+        </div> */}
+        {/* <div className="w-full max-md:flex-col">
           <TextField
             id="outlined-password-input"
             label="Address of employer"
@@ -121,10 +191,10 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             autoComplete="current-password"
             size={"small"}
             style={{ width: "100%" }}
-            // onChange={(e) => handledependantInfo(e, "address")}
+            // onChange={(e) => handleEnroleeInfo(e, "address")}
             // key={inputState}
           />
-        </div>
+        </div> */}
         <div className="w-full flex gap-[20px] max-md:flex-col">
           <TextField
             id="outlined-password-input"
@@ -132,20 +202,36 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             type="text"
             size={"small"}
             style={{ flex: 1 }}
-            // onChange={(e) => handledependantInfo(e, "address")}
+            onChange={(e) => handleEnroleeInfo(e, "phoneNo")}
             // key={inputState}
           />
           <TextField
             id="outlined-password-input"
             label="Email"
-            type="text"
+            type="email"
             size={"small"}
             style={{ flex: 1 }}
-            // onChange={(e) => handledependantInfo(e, "address")}
+            onChange={(e) => handleEnroleeInfo(e, "email")}
             // key={inputState}
           />
+          <div className="flex-1">
+            <Autocomplete
+              disablePortal
+              id="martialStatus"
+              options={relationship}
+              // key={inputState}
+              getOptionLabel={(option) => `${option.description}`}
+              onChange={(e, option) =>
+                handleEnroleeInfo(e, "martialStatus", option)
+              }
+              size={"small"}
+              renderInput={(params) => (
+                <TextField {...params} label="Marital Status" />
+              )}
+            />
+          </div>
         </div>
-        <div className="w-full flex gap-[20px] max-md:flex-col">
+        {/* <div className="w-full flex gap-[20px] max-md:flex-col">
           <div className="flex-[2]">
             <Autocomplete
               disablePortal
@@ -154,7 +240,7 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
               // key={inputState}
               getOptionLabel={(option) => `${option.description}`}
               // onChange={(e, option) =>
-              //   handledependantInfo(e, "relationType", option)
+              //   handleEnroleeInfo(e, "relationType", option)
               // }
               size={"small"}
               renderInput={(params) => (
@@ -170,7 +256,7 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
               // key={inputState}
               getOptionLabel={(option) => `${option.description}`}
               // onChange={(e, option) =>
-              //   handledependantInfo(e, "relationType", option)
+              //   handleEnroleeInfo(e, "relationType", option)
               // }
               size={"small"}
               renderInput={(params) => (
@@ -178,18 +264,16 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
               )}
             />
           </div>
-        </div>
+        </div> */}
         <div className="w-full flex gap-[20px] max-md:flex-col">
           <div className="flex-1">
             <Autocomplete
               disablePortal
-              id="combo-box-demo"
-              options={relationship}
+              id="sex"
+              options={gender}
               // key={inputState}
-              getOptionLabel={(option) => `${option.description}`}
-              // onChange={(e, option) =>
-              //   handledependantInfo(e, "relationType", option)
-              // }
+              getOptionLabel={(option) => `${option.sexDescription}`}
+              onChange={(e, option) => handleEnroleeInfo(e, "sex", option)}
               size={"small"}
               renderInput={(params) => <TextField {...params} label="Sex" />}
             />
@@ -198,12 +282,10 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             <Autocomplete
               disablePortal
               id="combo-box-demo"
-              options={relationship}
+              options={genotype}
               // key={inputState}
-              getOptionLabel={(option) => `${option.description}`}
-              // onChange={(e, option) =>
-              //   handledependantInfo(e, "relationType", option)
-              // }
+              getOptionLabel={(option) => `${option.code}`}
+              onChange={(e, option) => handleEnroleeInfo(e, "genotype", option)}
               size={"small"}
               renderInput={(params) => (
                 <TextField {...params} label="Genotype" />
@@ -214,12 +296,12 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
             <Autocomplete
               disablePortal
               id="combo-box-demo"
-              options={relationship}
+              options={bloodGroup}
               // key={inputState}
               getOptionLabel={(option) => `${option.description}`}
-              // onChange={(e, option) =>
-              //   handledependantInfo(e, "relationType", option)
-              // }
+              onChange={(e, option) =>
+                handleEnroleeInfo(e, "bloodGroup", option)
+              }
               size={"small"}
               renderInput={(params) => (
                 <TextField {...params} label="Blood group" />
@@ -229,9 +311,7 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
           <div className="flex-1 ">
             <DatePicker
               selected={startDate}
-              onChange={(selectedDate) =>
-                handleDateChange(selectedDate, "update")
-              }
+              onChange={(selectedDate) => handleDateChange(selectedDate)}
               dateFormat="MMMM d, yyyy"
               className="datePicker w-[100%] bg-slate-100 p-2 rounded-md cursor-pointer"
               showMonthDropdown
@@ -244,9 +324,12 @@ const Step1 = ({ handleDateChange, startDate, handleNext }) => {
           <button
             type="submit"
             className="hover:bg-gray-600   bg-gray-400 text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px]"
-            onClick={() => handleNext("spouse")}
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(enroleesDetails);
+            }}
           >
-            Next
+            Submit
           </button>
         </div>
       </motion.form>
