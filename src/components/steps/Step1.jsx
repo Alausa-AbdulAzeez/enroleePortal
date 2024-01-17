@@ -20,6 +20,7 @@ const Step1 = ({
   setStartDate,
   setSelectedFile,
   selectedFile,
+  handleUpdateEnroleeDetails,
 }) => {
   // function for handling date chande
   const handleDateChange = (selectedDate) => {
@@ -58,7 +59,7 @@ const Step1 = ({
       });
     } else if (dataName === "sex") {
       setEnroleesDetails((prev) => {
-        return { ...prev, sex: data?.sexDescription };
+        return { ...prev, sex: data?.sexCode };
       });
     } else if (dataName === "martialStatus") {
       setEnroleesDetails((prev) => {
@@ -329,10 +330,7 @@ const Step1 = ({
           <button
             type="submit"
             className="hover:bg-gray-600   bg-gray-400 text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px]"
-            onClick={(e) => {
-              e.preventDefault();
-              console.log(enroleesDetails);
-            }}
+            onClick={(e) => handleUpdateEnroleeDetails(e)}
           >
             Submit
           </button>

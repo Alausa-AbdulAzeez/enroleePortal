@@ -77,11 +77,11 @@ export const martialStatus = [
 
 export const gender = [
   {
-    sexCode: "F  ",
+    sexCode: "F",
     sexDescription: "FEMALE",
   },
   {
-    sexCode: "M ",
+    sexCode: "M",
     sexDescription: "MALE",
   },
 ];
@@ -89,7 +89,7 @@ export const gender = [
 export const bloodGroup = [
   {
     code: "01",
-    description: "O+",
+    description: "A+",
   },
   {
     code: "02",

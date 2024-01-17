@@ -24,6 +24,9 @@ const RegisterEnrolee = () => {
   // BUTTON STATE
   const [btnDisabled, setBtnDisabled] = useState(true);
 
+  // BUTTON STATE
+  const [submitFormDisabledBtn, setSubmitFormDisabledBtn] = useState(true);
+
   // FILE SELECTION AND CHANGE
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -55,6 +58,9 @@ const RegisterEnrolee = () => {
   // COMPANY ID STATE
   const [companyId, setCompanyId] = useState(null);
 
+  // EMPLOYEE ID STATE
+  const [employeeId, setEmployeeId] = useState(null);
+
   //   FUNCTION TO HANDLE ADVANCEMENT TO THE NEXT STEP
   const handleNext = (step) => {
     setStep(step);
@@ -83,7 +89,19 @@ const RegisterEnrolee = () => {
 
   // FUNCTION TO HANDLE UPDATE OF ENROLEE'S DETAILS
   const handleUpdateEnroleeDetails = async (e) => {
+    console.log(e.target);
+    console.log(enroleesDetails);
     e.preventDefault();
+
+    // Validation: Check if any field in enroleesDetails is empty
+    const isAnyFieldEmpty = Object.values(enroleesDetails).some(
+      (value) => value === ""
+    );
+
+    if (isAnyFieldEmpty) {
+      toast.error("Please fill in all fields");
+      return;
+    }
 
     toastId.current = toast("Please wait...", {
       autoClose: false,
@@ -92,36 +110,21 @@ const RegisterEnrolee = () => {
     setBtnDisabled(true);
     try {
       await publicRequest
-        .get(`/Login/StaffID?staffid=${staffId}&companyid=${companyId}`)
+        .put(
+          `/Login/UserUpdateonline?IdEmployee=${employeeId}`,
+          enroleesDetails
+        )
         .then((res) => {
-          if (res?.data.length > 0) {
-            console.log(res?.data);
-            toast.update(toastId.current, {
-              render: "Details fetched successfully",
-              type: "success",
-              autoClose: 2000,
-              isLoading: false,
-            });
-            setBtnDisabled(false);
-            setFoundEnrolee(true);
-            setFetchedEnrolee(res?.data);
-          } else {
-            toast.update(toastId.current, {
-              render: "Could not find user. Please input the correct details",
-              type: "error",
-              autoClose: 2000,
-              isLoading: false,
-            });
-            setBtnDisabled(false);
-            setFoundEnrolee(false);
-            setFetchedEnrolee(null);
-          }
+          toast.update(toastId.current, {
+            render: "Details updated successfully",
+            type: "success",
+            autoClose: 2000,
+            isLoading: false,
+          });
+          window.location.reload();
         });
     } catch (error) {
       console.log(error);
-      setBtnDisabled(false);
-      setFoundEnrolee(false);
-      setFetchedEnrolee(null);
       toast.update(toastId.current, {
         type: "error",
         autoClose: 3000,
@@ -161,6 +164,7 @@ const RegisterEnrolee = () => {
             setBtnDisabled(false);
             setFoundEnrolee(true);
             setFetchedEnrolee(res?.data);
+            setEmployeeId(res?.data?.[0]?.idEmployee);
           } else {
             toast.update(toastId.current, {
               render: "Could not find user. Please input the correct details",
@@ -207,6 +211,7 @@ const RegisterEnrolee = () => {
             setStartDate={setStartDate}
             setSelectedFile={setSelectedFile}
             selectedFile={selectedFile}
+            handleUpdateEnroleeDetails={handleUpdateEnroleeDetails}
           />
         );
 
