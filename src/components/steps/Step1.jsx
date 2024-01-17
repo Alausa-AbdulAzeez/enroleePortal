@@ -7,6 +7,7 @@ import {
   bloodGroup,
   gender,
   genotype,
+  martialStatus,
   relationship,
 } from "../../assets/data/Relationship.";
 
@@ -58,6 +59,10 @@ const Step1 = ({
     } else if (dataName === "sex") {
       setEnroleesDetails((prev) => {
         return { ...prev, sex: data?.sexDescription };
+      });
+    } else if (dataName === "martialStatus") {
+      setEnroleesDetails((prev) => {
+        return { ...prev, martialStatus: data?.code };
       });
     } else {
       setEnroleesDetails((prev) => {
@@ -218,7 +223,7 @@ const Step1 = ({
             <Autocomplete
               disablePortal
               id="martialStatus"
-              options={relationship}
+              options={martialStatus}
               // key={inputState}
               getOptionLabel={(option) => `${option.description}`}
               onChange={(e, option) =>
@@ -284,7 +289,7 @@ const Step1 = ({
               id="combo-box-demo"
               options={genotype}
               // key={inputState}
-              getOptionLabel={(option) => `${option.code}`}
+              getOptionLabel={(option) => `${option.description}`}
               onChange={(e, option) => handleEnroleeInfo(e, "genotype", option)}
               size={"small"}
               renderInput={(params) => (

@@ -48,6 +48,32 @@ export const relationship = [
     description: "Grand Mother",
   },
 ];
+export const martialStatus = [
+  {
+    code: "DIV",
+    description: "Divorced",
+  },
+  {
+    code: "MAR",
+    description: "Married",
+  },
+  {
+    code: "SEP",
+    description: "Separated",
+  },
+  {
+    code: "SIN",
+    description: "Single",
+  },
+  {
+    code: "WID",
+    description: "Widow",
+  },
+  {
+    code: "WIDER",
+    description: "Widower",
+  },
+];
 
 export const gender = [
   {
@@ -62,54 +88,63 @@ export const gender = [
 
 export const bloodGroup = [
   {
-    code: "O+",
-    description: "O Positive",
+    code: "01",
+    description: "O+",
   },
   {
-    code: "O-",
-    description: "O Negative",
+    code: "02",
+    description: "B+",
   },
   {
-    code: "A+",
-    description: "A Positive",
+    code: "03",
+    description: "O+",
   },
   {
-    code: "A-",
-    description: "A Negative",
+    code: "04",
+    description: "AB+",
   },
   {
-    code: "B+",
-    description: "B Positive",
+    code: "05",
+    description: "A-",
   },
   {
-    code: "B-",
-    description: "B Negative",
+    code: "06",
+    description: "B-",
   },
   {
-    code: "AB+",
-    description: "AB Positive",
+    code: "07",
+    description: "0-",
   },
   {
-    code: "AB-",
-    description: "AB Negative",
+    code: "08",
+    description: "AB-",
   },
 ];
 
 export const genotype = [
   {
-    code: "AA",
+    code: "01",
+    description: "AA",
   },
   {
-    code: "AC",
+    code: "02",
+    description: "AB",
   },
   {
-    code: "AS",
+    code: "03",
+    description: "AS",
   },
   {
-    code: "SS",
+    code: "04",
+    description: "SS",
   },
   {
-    code: "SC",
+    code: "05",
+    description: "AC",
+  },
+  {
+    code: "06",
+    description: "SC",
   },
 ];
 
