@@ -21,6 +21,10 @@ const Step1 = ({
   setSelectedFile,
   selectedFile,
   handleUpdateEnroleeDetails,
+  btnDisabled,
+  setBtnDisabled,
+  handleConfirmEnroleeDetails,
+  handleCompanyIdAndEnroleeIdChange,
 }) => {
   // function for handling date chande
   const handleDateChange = (selectedDate) => {
@@ -75,6 +79,41 @@ const Step1 = ({
 
   return (
     <AnimatePresence>
+      <div className="bg-white text-gray-700 mx-32 max-md:mx-2 mt-5 rounded-md p-5 mb-[15px]">
+        <div className="">Dear enrolee,</div>
+        <div className="mb-[20px]">
+          Welcome to Lifeworth's online registration portal. To complete your
+          registration, kindly input your staff ID, and your company ID.
+        </div>
+        <div className="flex gap-[20px] mt-[10px] max-md:flex-col">
+          <TextField
+            id="staffId"
+            label="Staff ID"
+            type="text"
+            autoComplete="staffId"
+            size={"small"}
+            onChange={(e) => handleCompanyIdAndEnroleeIdChange(e, "staffId")}
+            // key={inputState}
+          />
+          <TextField
+            id="companyId"
+            label="Company ID"
+            type="text"
+            autoComplete="companyId"
+            size={"small"}
+            onChange={(e) => handleCompanyIdAndEnroleeIdChange(e, "companyId")}
+            // key={inputState}
+          />
+          <button
+            disabled={btnDisabled}
+            type="submit"
+            onClick={handleConfirmEnroleeDetails}
+            className="hover:bg-lwPurple ml-[60px]  bg-lwLightPurple text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px] disabled:cursor-not-allowed disabled:bg-lwPurpleDisabled"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
       <motion.form
         className=" flex flex-col bg-white mx-32 max-md:mx-2 p-5 rounded-sm overflow-y-auto mb-[50px] gap-[20px]"
         // onSubmit={handleCreateDependant}

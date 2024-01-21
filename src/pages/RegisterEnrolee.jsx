@@ -13,10 +13,11 @@ import Step3 from "../components/steps/Step3";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { publicRequest } from "../functions/requestMethods";
+import Step0 from "../components/steps/Step0";
 
 const RegisterEnrolee = () => {
   // STEP
-  const [step, setStep] = useState("enroleesDetails");
+  const [step, setStep] = useState("enroleesDetailsCheck");
 
   // DATE SELECTION AND CHANGE
   const [startDate, setStartDate] = useState(null);
@@ -200,6 +201,28 @@ const RegisterEnrolee = () => {
   //   FUNCTION TO HANDLE RENDERING OF A DIFFERENT UI BASED ON THE CURRENT STEP
   const renderStepContent = () => {
     switch (step) {
+      case "enroleesDetailsCheck":
+        return (
+          <Step0
+            handleNext={handleNext}
+            startDate={startDate}
+            fetchedEnrolee={fetchedEnrolee}
+            setEnroleesDetails={setEnroleesDetails}
+            enroleesDetails={enroleesDetails}
+            setStartDate={setStartDate}
+            setSelectedFile={setSelectedFile}
+            selectedFile={selectedFile}
+            handleUpdateEnroleeDetails={handleUpdateEnroleeDetails}
+            staffId={staffId}
+            setStaffId={setStaffId}
+            btnDisabled={btnDisabled}
+            setBtnDisabled={setBtnDisabled}
+            handleConfirmEnroleeDetails={handleConfirmEnroleeDetails}
+            handleCompanyIdAndEnroleeIdChange={
+              handleCompanyIdAndEnroleeIdChange
+            }
+          />
+        );
       case "enroleesDetails":
         return (
           <Step1
@@ -212,6 +235,14 @@ const RegisterEnrolee = () => {
             setSelectedFile={setSelectedFile}
             selectedFile={selectedFile}
             handleUpdateEnroleeDetails={handleUpdateEnroleeDetails}
+            staffId={staffId}
+            setStaffId={setStaffId}
+            btnDisabled={btnDisabled}
+            setBtnDisabled={setBtnDisabled}
+            handleConfirmEnroleeDetails={handleConfirmEnroleeDetails}
+            handleCompanyIdAndEnroleeIdChange={
+              handleCompanyIdAndEnroleeIdChange
+            }
           />
         );
 
@@ -269,40 +300,13 @@ const RegisterEnrolee = () => {
           Enrolee Registration
         </h3>
       </div>
-      <div className="bg-white text-gray-700 mx-32 max-md:mx-2 mt-5 rounded-md p-5 mb-[15px]">
-        <div className="">Dear enrolee,</div>
-        <div className="mb-[20px]">
-          Welcome to Lifeworth's online registration portal. To complete your
-          registration, kindly input your staff ID, and your company ID.
-        </div>
-        <div className="flex gap-[20px] mt-[10px] max-md:flex-col">
-          <TextField
-            id="staffId"
-            label="Staff ID"
-            type="text"
-            autoComplete="staffId"
-            size={"small"}
-            onChange={(e) => handleCompanyIdAndEnroleeIdChange(e, "staffId")}
-            // key={inputState}
-          />
-          <TextField
-            id="companyId"
-            label="Company ID"
-            type="text"
-            autoComplete="companyId"
-            size={"small"}
-            onChange={(e) => handleCompanyIdAndEnroleeIdChange(e, "companyId")}
-            // key={inputState}
-          />
-          <button
-            disabled={btnDisabled}
-            type="submit"
-            onClick={handleConfirmEnroleeDetails}
-            className="hover:bg-lwPurple ml-[60px]  bg-lwLightPurple text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px] disabled:cursor-not-allowed disabled:bg-lwPurpleDisabled"
-          >
-            Submit
-          </button>
-        </div>
+      <div className="absolute top-[60px] w-full text-center z-[14] text-[18px]">
+        Already registered? Click{" "}
+        <span className="underline text-blue-600">
+          {" "}
+          <Link to="/login">here</Link>{" "}
+        </span>{" "}
+        to login
       </div>
       <motion.div
         initial={{ opacity: 0, x: "-100%" }}
@@ -310,7 +314,7 @@ const RegisterEnrolee = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {foundEnrole && renderStepContent()}
+        {renderStepContent()}
       </motion.div>
     </div>
   );
