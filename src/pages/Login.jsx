@@ -1,132 +1,223 @@
-import { useEffect, useRef, useState } from 'react'
-import Logo from '../assets/images/LWlogo.png'
-import { BsLock, BsLockFill, BsPerson, BsPersonFill } from 'react-icons/bs'
-import { ToastContainer, toast } from 'react-toastify'
-import { publicRequest } from '../functions/requestMethods'
-import { useNavigate } from 'react-router-dom'
-import 'react-toastify/dist/ReactToastify.css'
+import { useEffect, useRef, useState } from "react";
+import Logo from "../assets/images/LWlogo.png";
+import { BsLock, BsLockFill, BsPerson, BsPersonFill } from "react-icons/bs";
+import { ToastContainer, toast } from "react-toastify";
+import { publicRequest } from "../functions/requestMethods";
+import { Link, useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Login = () => {
   // MISCELLANEOUS
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // USER LOGIN DETAILS
   const [user, setUser] = useState({
-    employeeNo: '',
-    phoneNo: '',
-  })
+    employeeNo: "",
+    phoneNo: "",
+  });
 
   // LOGGED IN USER DATA
-  let userData
+  let userData;
 
   // BUTTON STATE
-  const [btnDisabled, setBtnDisabled] = useState(true)
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
   // TOAST ID
-  const toastId = useRef(null)
+  const toastId = useRef(null);
 
   // FUNCTION TO HNDLE LOGIN INPUT CHANGE
   const handleSetUser = (event, inputType) => {
-    setUser({ ...user, [inputType]: event.target.value })
-  }
+    setUser({ ...user, [inputType]: event.target.value });
+  };
   // END OF FUNCTION TO HNDLE LOGIN INPUT CHANGE
 
   // FUNCTION TO HANDLE BUTTON STATE CHANGE
   const setBtnState = () => {
     if (user.employeeNo && user.phoneNo) {
-      setBtnDisabled(false)
+      setBtnDisabled(false);
     } else {
-      setBtnDisabled(true)
+      setBtnDisabled(true);
     }
-  }
+  };
   // END OF FUNCTION TO HANDLE BUTTON STATE CHANGE
 
   // FUNCTION TO HANDLE USER LOGIN
   const handleLogin = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    toastId.current = toast('Please wait...', {
+    toastId.current = toast("Please wait...", {
       autoClose: false,
       isLoading: true,
-    })
-    setBtnDisabled(true)
+    });
+    setBtnDisabled(true);
     try {
-      await publicRequest.post('/Login', user).then((res) => {
-        userData = res?.data
+      await publicRequest.post("/Login", user).then((res) => {
+        userData = res?.data;
 
-        sessionStorage.setItem('user', JSON.stringify(userData))
+        sessionStorage.setItem("user", JSON.stringify(userData));
         toast.update(toastId.current, {
-          render: 'Login succesful! Please wait while we redirect you.',
-          type: 'success',
+          render: "Login succesful! Please wait while we redirect you.",
+          type: "success",
           autoClose: 2000,
           isLoading: false,
-        })
+        });
         setTimeout(() => {
-          navigate('/')
-        }, 2000)
-      })
+          navigate("/");
+        }, 2000);
+      });
     } catch (error) {
-      console.log(error)
-      setBtnDisabled(false)
+      console.log(error);
+      setBtnDisabled(false);
       toast.update(toastId.current, {
-        type: 'error',
+        type: "error",
         autoClose: 3000,
         isLoading: false,
         render: `${
           error?.response?.data?.title ||
           error?.response?.data?.description ||
           error?.message ||
-          'Something went wrong, please try again'
+          "Something went wrong, please try again"
         }`,
-      })
+      });
     }
-  }
+  };
   // END OF FUNCTION TO HANDLE USER LOGIN
 
   //
 
   // USEEFFECT TO HANDLE BUTTON STATE AS INPUT CHANGES
   useEffect(() => {
-    setBtnState()
+    setBtnState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
+  }, [user]);
   // END OF USEEFFECT TO HANDLE BUTTON STATE AS INPUT CHANGES
 
   return (
-    <div className='w-[100vw] h-[100vh] flex items-center justify-center'>
+    <div className="w-[100vw] h-[100vh] bg-slate-100">
       <ToastContainer />
-      <div className='h-[85%] w-[350px] max-w-[400px] max-sm:w-[90%] shadow-lg rounded-md relative overflow-hidden'>
-        <div className='bg-lwPurple w-[100%] h-[100%] rounded-full absolute left-0 right-0 top-[-70%]'>
+      <div className="h-[55px] bg-white w-[100%] px-12 max-md:px-2 flex items-center justify-between sticky top-0 z-10">
+        <div className=" h-[55px] flex items-center justify-center ">
+          <h3 className="font-bold text-lg text-lwOrange mr-2">LifeWORTH</h3>
+          <img src={Logo} alt="logo" className=" w-[30px] h-[30px] " />
+        </div>
+        <h3 className="font-medium text-lwPurple text-[18px]">
+          Enrolee Portal
+        </h3>
+      </div>
+      <div className="absolute top-[60px] w-full text-center z-[14] text-[18px]">
+        Click{" "}
+        <span className="underline text-blue-600">
+          {" "}
+          <Link to="/registerEnrolee">here</Link>{" "}
+        </span>{" "}
+        to complete your registration
+      </div>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, x: "-100%" }}
+          animate={{ opacity: 1, x: "0" }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="w-full h-[calc(100vh-60px)] flex items-center justify-center">
+            <div className="bg-white w-[600px]  text-gray-700 mx-32 max-md:mx-2 mt-5 rounded-md p-5 mb-[15px]">
+              <div className="border-b border-[#f2f2f2] pb-2 font-bold">
+                Login
+              </div>
+              <div className="pt-2 pb-3">Dear enrolee,</div>
+              <div className="mb-[20px]">
+                Welcome to Lifeworth's online enrolee portal. To login, kindly
+                input your enrolee ID, and your phone number.
+              </div>
+              <div className="flex gap-[20px] mt-[10px] max-md:flex-col items-center">
+                <div className="w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center">
+                  <BsPersonFill className="mr-2 w-6 h-6" />
+                  <input
+                    type="text"
+                    placeholder={"LWH/LWH/***'/'***"}
+                    onChange={(e) => handleSetUser(e, "employeeNo")}
+                    className="border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold"
+                    required
+                  />
+                </div>
+                <div className="w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center">
+                  <BsLockFill className="mr-2 w-5 h-5" />
+                  <input
+                    type="text"
+                    placeholder="Phone Number"
+                    onChange={(e) => handleSetUser(e, "phoneNo")}
+                    className="border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold"
+                    required
+                  />
+                </div>
+                {/* <TextField
+                  id="staffId"
+                  label="Staff ID"
+                  type="text"
+                  autoComplete="staffId"
+                  size={"small"}
+                  onChange={(e) =>
+                    handleCompanyIdAndEnroleeIdChange(e, "staffId")
+                  }
+                />
+                <TextField
+                  id="companyId"
+                  label="Company ID"
+                  type="text"
+                  autoComplete="companyId"
+                  size={"small"}
+                  onChange={(e) =>
+                    handleCompanyIdAndEnroleeIdChange(e, "companyId")
+                  }
+                /> */}
+              </div>
+              <div className="border-t border-[#f2f2f2] pt-2 mt-4 font-bold flex justify-end">
+                <button
+                  disabled={btnDisabled}
+                  type="submit"
+                  onClick={handleLogin}
+                  className="hover:bg-lwPurple mt-2  bg-lwLightPurple text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px] disabled:cursor-not-allowed disabled:bg-lwPurpleDisabled"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+      {/* <div className="h-[85%] w-[350px] max-w-[400px] max-sm:w-[90%] shadow-lg rounded-md relative overflow-hidden">
+        <div className="bg-lwPurple w-[100%] h-[100%] rounded-full absolute left-0 right-0 top-[-70%]">
           <img
             src={Logo}
-            alt='logo'
-            className='absolute w-[75px] h-[75px] bottom-[6%] left-[50%] translate-x-[-50%] '
+            alt="logo"
+            className="absolute w-[75px] h-[75px] bottom-[6%] left-[50%] translate-x-[-50%] "
           />
         </div>
-        <h3 className='absolute top-[40%] text-center w-[100%] font-nunito text-2xl font-bold text-lwPurple'>
+        <h3 className="absolute top-[40%] text-center w-[100%] font-nunito text-2xl font-bold text-lwPurple">
           Sign in Now
         </h3>
         <form
-          className='w-[100%] h-auto  top-[50%] absolute'
+          className="w-[100%] h-auto  top-[50%] absolute"
           onSubmit={handleLogin}
         >
-          <div className='w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center'>
-            <BsPersonFill className='mr-2 w-6 h-6' />
+          <div className="w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center">
+            <BsPersonFill className="mr-2 w-6 h-6" />
             <input
-              type='text'
-              placeholder='LWH/LWH/***/***'
-              onChange={(e) => handleSetUser(e, 'employeeNo')}
-              className='border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold'
+              type="text"
+              placeholder={"LWH/LWH/***'/'***"}
+              onChange={(e) => handleSetUser(e, "employeeNo")}
+              className="border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold"
               required
             />
           </div>
-          <div className='w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center mt-3'>
-            <BsLockFill className='mr-2 w-5 h-5' />
+          <div className="w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center mt-3">
+            <BsLockFill className="mr-2 w-5 h-5" />
             <input
-              type='text'
-              placeholder='Phone Number'
-              onChange={(e) => handleSetUser(e, 'phoneNo')}
-              className='border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold'
+              type="text"
+              placeholder="Phone Number"
+              onChange={(e) => handleSetUser(e, "phoneNo")}
+              className="border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold"
               required
             />
           </div>
@@ -137,9 +228,9 @@ const Login = () => {
             Log in
           </button>
         </form>
-      </div>
+      </div> */}
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
