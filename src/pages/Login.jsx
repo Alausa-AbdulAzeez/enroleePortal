@@ -94,64 +94,65 @@ const Login = () => {
   // END OF USEEFFECT TO HANDLE BUTTON STATE AS INPUT CHANGES
 
   return (
-    <div className="w-[100vw] h-[100vh] bg-slate-100">
+    <div className="w-[100vw] h-[100vh] bg-slate-100 relative">
+      <div className="absolute w-full h-full top-0 left-0 ">
+        <img
+          src="https://images.pexels.com/photos/5996641/pexels-photo-5996641.jpeg?auto=compress&cs=tinysrgb&w=600"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+      </div>
       <ToastContainer />
-      <div className="h-[55px] bg-white w-[100%] px-12 max-md:px-2 flex items-center justify-between sticky top-0 z-10">
-        <div className=" h-[55px] flex items-center justify-center ">
-          <h3 className="font-bold text-lg text-lwOrange mr-2">LifeWORTH</h3>
-          <img src={Logo} alt="logo" className=" w-[30px] h-[30px] " />
+      <div className="w-full h-full bg-[#0000009a] backdrop-blur-lg absolute top-[0] left-[0]">
+        <div className="h-[55px] bg-transparent w-[100%] px-12 max-md:px-2 flex items-center justify-between sticky top-0">
+          <div className=" h-[55px] flex items-center justify-center ">
+            <h3 className="font-bold text-lg text-lwOrange mr-2">LifeWORTH</h3>
+            <img src={Logo} alt="logo" className=" w-[30px] h-[30px] " />
+          </div>
+          <h3 className="font-medium text-white text-[18px]">Enrolee Portal</h3>
         </div>
-        <h3 className="font-medium text-lwPurple text-[18px]">
-          Enrolee Portal
-        </h3>
-      </div>
-      <div className="absolute top-[60px] w-full text-center z-[14] text-[18px]">
-        Click{" "}
-        <span className="underline text-blue-600">
-          {" "}
-          <Link to="/registerEnrolee">here</Link>{" "}
-        </span>{" "}
-        to complete your registration
-      </div>
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0, x: "-100%" }}
-          animate={{ opacity: 1, x: "0" }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="w-full h-[calc(100vh-60px)] flex items-center justify-center">
-            <div className="bg-white w-[600px]  text-gray-700 mx-32 max-md:mx-2 mt-5 rounded-md p-5 mb-[15px]">
-              <div className="border-b border-[#f2f2f2] pb-2 font-bold">
-                Login
-              </div>
-              <div className="pt-2 pb-3">Dear enrolee,</div>
-              <div className="mb-[20px]">
-                Welcome to Lifeworth's online enrolee portal. To login, kindly
-                input your enrolee ID, and your phone number.
-              </div>
-              <div className="flex gap-[20px] mt-[10px] max-md:flex-col items-center">
-                <div className="w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center">
-                  <BsPersonFill className="mr-2 w-6 h-6" />
-                  <input
-                    type="text"
-                    placeholder={"LWH/LWH/***'/'***"}
-                    onChange={(e) => handleSetUser(e, "employeeNo")}
-                    className="border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold"
-                    required
-                  />
+
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, x: "-100%" }}
+            animate={{ opacity: 1, x: "0" }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center justify-center h-[calc(100vh-60px)] "
+          >
+            <div className="w-[50%] gap-0 h-[70vh] flex items-center justify-center shadow-2xl">
+              <div className="bg-white h-full flex-1  text-gray-700 flex flex-col gap-[20px]  rounded-tl-lg rounded-bl-lg p-5">
+                <div className="border-b border-[#f2f2f2] pb-2 font-extrabold text-[18px]">
+                  Login
                 </div>
-                <div className="w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center">
-                  <BsLockFill className="mr-2 w-5 h-5" />
-                  <input
-                    type="text"
-                    placeholder="Phone Number"
-                    onChange={(e) => handleSetUser(e, "phoneNo")}
-                    className="border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold"
-                    required
-                  />
-                </div>
-                {/* <TextField
+                <div className="">
+                  <div className="pt-2 pb-3">Dear enrolee,</div>
+                  <div className="mb-[20px]">
+                    Welcome to Lifeworth's online enrolee portal. To login,
+                    kindly input your enrolee ID, and your phone number.
+                  </div>
+                  <div className="flex gap-[20px] mt-[10px] flex-col justify-start">
+                    <div className="w-[100%] h-[45px] border-b rounded-full mx-auto flex px-5 items-center">
+                      <BsPersonFill className="mr-2 w-6 h-6" />
+                      <input
+                        type="text"
+                        placeholder={"LWH/LWH/***'/'***"}
+                        onChange={(e) => handleSetUser(e, "employeeNo")}
+                        className="border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold"
+                        required
+                      />
+                    </div>
+                    <div className="w-[100%] h-[45px] border-b rounded-full mx-auto flex px-5 items-center">
+                      <BsLockFill className="mr-2 w-5 h-5" />
+                      <input
+                        type="text"
+                        placeholder="Phone Number"
+                        onChange={(e) => handleSetUser(e, "phoneNo")}
+                        className="border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold"
+                        required
+                      />
+                    </div>
+                    {/* <TextField
                   id="staffId"
                   label="Staff ID"
                   type="text"
@@ -171,64 +172,38 @@ const Login = () => {
                     handleCompanyIdAndEnroleeIdChange(e, "companyId")
                   }
                 /> */}
+                  </div>
+                </div>
+                <div className=" pt-2 font-bold flex justify-end flex-col">
+                  <div className=" w-full text-left mt-[20px] mb-[10px]">
+                    Click{" "}
+                    <span className="underline text-blue-600">
+                      {" "}
+                      <Link to="/registerEnrolee">here</Link>{" "}
+                    </span>{" "}
+                    to complete your registration
+                  </div>
+                  <button
+                    disabled={btnDisabled}
+                    type="submit"
+                    onClick={handleLogin}
+                    className="hover:bg-lwPurple mt-2  bg-lwLightPurple text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px] disabled:cursor-not-allowed disabled:bg-lwPurpleDisabled"
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
-              <div className="border-t border-[#f2f2f2] pt-2 mt-4 font-bold flex justify-end">
-                <button
-                  disabled={btnDisabled}
-                  type="submit"
-                  onClick={handleLogin}
-                  className="hover:bg-lwPurple mt-2  bg-lwLightPurple text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px] disabled:cursor-not-allowed disabled:bg-lwPurpleDisabled"
-                >
-                  Submit
-                </button>
+              <div className=" flex-1  h-full ">
+                <img
+                  src="https://images.pexels.com/photos/5996641/pexels-photo-5996641.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt=""
+                  className="w-full h-full object-cover rounded-tr-lg rounded-br-lg"
+                />
               </div>
             </div>
-          </div>
-        </motion.div>
-      </AnimatePresence>
-      {/* <div className="h-[85%] w-[350px] max-w-[400px] max-sm:w-[90%] shadow-lg rounded-md relative overflow-hidden">
-        <div className="bg-lwPurple w-[100%] h-[100%] rounded-full absolute left-0 right-0 top-[-70%]">
-          <img
-            src={Logo}
-            alt="logo"
-            className="absolute w-[75px] h-[75px] bottom-[6%] left-[50%] translate-x-[-50%] "
-          />
-        </div>
-        <h3 className="absolute top-[40%] text-center w-[100%] font-nunito text-2xl font-bold text-lwPurple">
-          Sign in Now
-        </h3>
-        <form
-          className="w-[100%] h-auto  top-[50%] absolute"
-          onSubmit={handleLogin}
-        >
-          <div className="w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center">
-            <BsPersonFill className="mr-2 w-6 h-6" />
-            <input
-              type="text"
-              placeholder={"LWH/LWH/***'/'***"}
-              onChange={(e) => handleSetUser(e, "employeeNo")}
-              className="border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold"
-              required
-            />
-          </div>
-          <div className="w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center mt-3">
-            <BsLockFill className="mr-2 w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Phone Number"
-              onChange={(e) => handleSetUser(e, "phoneNo")}
-              className="border-none w-[100%] outline-none text-lwPurple pl-2 font-semibold"
-              required
-            />
-          </div>
-          <button
-            disabled={btnDisabled}
-            className={`disabled:bg-lwPurpleDisabled disabled:cursor-not-allowed w-[80%] h-[45px] border rounded-full mx-auto flex px-5 items-center mt-14 justify-center bg-lwPurple font-bold text-white `}
-          >
-            Log in
-          </button>
-        </form>
-      </div> */}
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
