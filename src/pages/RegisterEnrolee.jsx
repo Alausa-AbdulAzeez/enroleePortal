@@ -293,14 +293,14 @@ const RegisterEnrolee = () => {
       <ToastContainer />
       <div className="h-[55px] bg-white w-[100%] px-12 max-md:px-2 flex items-center justify-between sticky top-0 z-10">
         <div className=" h-[55px] flex items-center justify-center ">
-          <h3 className="font-bold text-lg text-lwOrange mr-2">LifeWORTH</h3>
+          <h3 className="font-bold text-lg text-lwOrange mr-2 ">LifeWORTH</h3>
           <img src={Logo} alt="logo" className=" w-[30px] h-[30px] " />
         </div>
-        <h3 className="font-medium text-lwPurple text-[18px]">
+        <h3 className="font-medium text-lwPurple text-[18px] max-lg:text-[16px]">
           Enrolee Registration
         </h3>
       </div>
-      <div className="absolute top-[60px] w-full text-center z-[14] text-[18px]">
+      <div className="absolute top-[60px] max-lg:top-[75px]  w-full text-center z-[14] text-[18px]">
         Already registered? Click{" "}
         <span className="underline text-blue-600">
           {" "}
