@@ -315,8 +315,8 @@ const UserDetails = ({ page }) => {
       </div>
 
       {page === "Profile" && (
-        <div className="w-[100%] h-[80px] bg-gray-400  flex items-end ">
-          <h3 className="w-[100%] h-[60px] bg-gray-400 align-bottom font-bold text-[#424242] flex items-center justify-center ">
+        <div className="w-[100%] h-[80px] bg-white max-sm:px-3  flex items-end ">
+          <h3 className="w-[100%] h-[60px] bg-white align-bottom font-bold text-[#424242] flex items-center justify-center ">
             To share your feedback about any hospital you've visited, please
             click
             <Link
