@@ -60,7 +60,7 @@ export default function SwiperComponent({
         className="mySwiper"
       >
         <SwiperSlide>
-          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl rounded-xl p-3 flex flex-col max-sm:p-3">
+          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col max-sm:p-3">
             <h3 className="font-bold text-[#a1a0a0]">Enrolee Name</h3>
             <div className="w-[80px] h-[100px]">
               <img src={person} alt="Person" />

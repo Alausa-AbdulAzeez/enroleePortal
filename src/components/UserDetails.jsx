@@ -183,13 +183,13 @@ const UserDetails = ({ page }) => {
     >
       {page === "Home" && (
         <>
-          <div className="bg-white p-4 shadow-lg mt-3">
+          <div className="bg-white p-4 shadow-lg mt-3 max-sm:shadow-none">
             <div className="">
               Dear <span className="font-bold">{userDetails?.fullName}</span> ,
             </div>
             <div className="">Welcome to Lifeworth's enrolee portal.</div>
           </div>
-          <div className=" min-h-[350px] flex justify-center max-sm:flex-col overflow-y-auto max-sm:min-h-[200px]">
+          <div className=" min-h-[350px] flex justify-center max-sm:flex-col overflow-y-auto max-sm:min-h-[190px]">
             <SwiperComponent
               userDetails={userDetails}
               authCodes={authCodes}
@@ -280,7 +280,7 @@ const UserDetails = ({ page }) => {
         </div>
       )}
 
-      <div className=" h-[400px] w-[100%]  max-sm:m-3  max-sm:w-[95%] min-h-[200px]">
+      <div className=" h-[400px] w-[100%]  max-sm:m-0  max-sm:w-[95%] min-h-[200px]">
         <h1 className="font-bold mb-1 text-[16px]">
           Authorization code requests
         </h1>

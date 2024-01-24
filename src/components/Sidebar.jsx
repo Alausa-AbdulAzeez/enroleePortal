@@ -67,7 +67,7 @@ const Sidebar = () => {
     <div
       className={`h-[100%]  ${
         sidebarOpen
-          ? "max-sm:w-[45%] max-md:w-[30%] max-lg:w-[25%] w-[20%] max-w-[400px]"
+          ? "max-sm:w-[85%] max-sm:fixed max-sm:z-20 max-md:w-[30%] max-lg:w-[25%] w-[20%] max-w-[400px]"
           : "w-0"
       } transition-all duration-500 bg-lwPurple relative`}
     >
@@ -79,10 +79,10 @@ const Sidebar = () => {
         title="Logout"
       />
       <div
-        className={`absolute top-[50%] flex justify-center items-center w-10 h-[60px] rounded-full cursor-pointer bg-gray-400 z-10 ${
+        className={`absolute top-[50%] flex justify-center items-center w-3 h-[80px] rounded-full cursor-pointer bg-[#99999910] backdrop-blur-3xl z-10 ${
           sidebarOpen
             ? "right-[-20px]"
-            : "right-[-30px] transition-all ease-in-out duration-1000"
+            : "right-[-10px] transition-all ease-in-out duration-1000"
         }`}
         onClick={toggleSidebar}
       >
