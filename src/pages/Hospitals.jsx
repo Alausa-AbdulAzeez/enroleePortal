@@ -38,8 +38,6 @@ const Hospitals = () => {
     setOpen(true);
   };
 
-  console.log(selectedProvider);
-
   const handleClose = () => {
     setOpen(false);
   };
