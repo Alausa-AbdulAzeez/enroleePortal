@@ -108,12 +108,10 @@ const Login = () => {
       <div className="w-full h-full overflow-auto bg-[#0000009a] backdrop-blur-lg absolute top-[0] left-[0]">
         <div className="h-[55px] bg-transparent w-[100%] px-12 max-md:px-2 flex items-center justify-between sticky top-0">
           <div className=" h-[55px] flex items-center justify-center ">
-            <h3 className="font-bold text-lg text-lwOrange mr-2 max-md:text-[14px] max-lg:text-[16px]">
-              LifeWORTH
-            </h3>
+            <h3 className="font-bold text-lg text-lwOrange mr-2 ">LifeWORTH</h3>
             <img src={Logo} alt="logo" className=" w-[30px] h-[30px] " />
           </div>
-          <h3 className="font-medium text-white text-[18px] max-md:text-[14px] max-lg:text-[16px]">
+          <h3 className="font-medium text-white text-[18px] ">
             Enrolee Portal
           </h3>
         </div>
@@ -129,7 +127,7 @@ const Login = () => {
             <div className="w-[65%] max-lg:w-[90%] overflow-auto  gap-0 h-[75vh] max-lg:h-[85vh] flex items-center justify-center shadow-2xl">
               <div className="bg-white h-full overflow-auto w-[40%] max-md:w-full   max-lg:w-[45%]  text-gray-700 flex flex-col gap-[20px]  rounded-tl-lg max-md:rounded-lg rounded-bl-lg p-5">
                 <div className="flex justify-between">
-                  <div className="border-b border-[#f2f2f2] pb-2 font-extrabold text-[18px] max-md:text-[14px] max-lg:text-[16px]">
+                  <div className="border-b border-[#f2f2f2] pb-2 font-extrabold text-[18px] ">
                     Login
                   </div>
                   <img
@@ -138,7 +136,7 @@ const Login = () => {
                     className=" w-[30px] h-[30px]  max-lg:w-[25px] max-lg:h-[25px]"
                   />
                 </div>
-                <div className="max-md:text-[12px] max-lg:text-[14px] ">
+                <div className="  ">
                   <div className="pt-2 pb-3">Dear enrolee,</div>
                   <div className="mb-[20px]">
                     Welcome to Lifeworth's online enrolee portal. To login,
@@ -187,7 +185,7 @@ const Login = () => {
                 /> */}
                   </div>
                 </div>
-                <div className=" pt-2 font-bold flex justify-end flex-col max-md:text-[12px] max-lg:text-[14px]">
+                <div className=" pt-2 font-bold flex justify-end flex-col  ">
                   <div className=" w-full text-left mt-[20px] mb-[10px]">
                     Click{" "}
                     <span className="underline text-blue-600">
