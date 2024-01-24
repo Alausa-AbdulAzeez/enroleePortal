@@ -176,11 +176,23 @@ const UserDetails = ({ page }) => {
   }, []);
 
   return (
-    <div className="p-12  gap-[40px] max-sm:mx-2 h-[calc(100%-60px)] flex flex-col overflow-auto">
+    <div
+      className={`p-12   ${
+        page === "Profile" ? "gap-[40px]" : "gap-[0px]"
+      } max-sm:mx-2 h-[calc(100%-60px)] flex flex-col overflow-auto`}
+    >
       {page === "Home" && (
-        <div className=" min-h-[350px] flex  max-sm:flex-col overflow-y-auto">
-          <SwiperComponent userDetails={userDetails} authCodes={authCodes} />
-        </div>
+        <>
+          <div className="bg-white p-4 shadow-lg">
+            <div className="">
+              Dear <span className="font-bold">{userDetails?.fullName}</span> ,
+            </div>
+            <div className="">Welcome to Lifeworth's enrolee portal.</div>
+          </div>
+          <div className=" min-h-[350px] flex  max-sm:flex-col overflow-y-auto">
+            <SwiperComponent userDetails={userDetails} authCodes={authCodes} />
+          </div>
+        </>
       )}
 
       {page === "Profile" && (

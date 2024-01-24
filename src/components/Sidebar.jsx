@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import { MdCancel } from "react-icons/md";
@@ -42,6 +42,26 @@ const Sidebar = () => {
     setOpen(false);
   };
   // END OF FUNCTION TO CLOSE LOGOUT MODAL
+
+  // USE EFFECT TO CHECK SCREEN SIZE AND SET SIDEBAR STATE
+  useEffect(() => {
+    // Function to handle window resize
+    const handleResize = () => {
+      // Update sidebarOpen based on screen size
+      setSidebarOpen(window.innerWidth > 768); // You can adjust the threshold as needed
+    };
+
+    // Initial call to handleResize
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array ensures the effect runs only once during mount
 
   return (
     <div

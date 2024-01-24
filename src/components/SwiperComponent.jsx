@@ -32,31 +32,28 @@ export default function SwiperComponent({ userDetails, authCodes }) {
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-slate-900 rounded-xl p-3 flex flex-col">
+            <h3 className="font-bold text-[#a1a0a0]">Enrolee Name</h3>
+            <p className="text-white font-semibold">
+              {userDetails?.name} {userDetails?.fullName}
+            </p>
+          </div>
         </SwiperSlide>
         <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-slate-900 rounded-xl p-3 flex flex-col">
+            <h3 className="font-bold text-[#a1a0a0]">
+              Number of authorization code requests
+            </h3>
+            <p className="text-white font-semibold">{authCodes?.length + 1}</p>
+          </div>
         </SwiperSlide>
         <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-slate-900 rounded-xl p-3 flex flex-col">
+            <h3 className="font-bold text-[#a1a0a0]">
+              Hospital with the highest authorization code request
+            </h3>
+            <p className="text-white font-semibold">{authCodes?.length + 1}</p>
+          </div>
         </SwiperSlide>
       </Swiper>
     </div>
