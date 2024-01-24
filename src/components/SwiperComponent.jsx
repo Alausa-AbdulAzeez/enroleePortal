@@ -42,7 +42,7 @@ export default function SwiperComponent({
   };
 
   return (
-    <div className="h-[300px] overflow-auto">
+    <div className="h-[300px] overflow-auto  max-sm:h-[200px]">
       <Swiper
         effect={"coverflow"}
         grabCursor={true}
@@ -60,7 +60,7 @@ export default function SwiperComponent({
         className="mySwiper"
       >
         <SwiperSlide>
-          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl rounded-xl p-3 flex flex-col">
+          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl rounded-xl p-3 flex flex-col max-sm:p-3">
             <h3 className="font-bold text-[#a1a0a0]">Enrolee Name</h3>
             <div className="w-[80px] h-[100px]">
               <img src={person} alt="Person" />

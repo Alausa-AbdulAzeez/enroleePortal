@@ -31,6 +31,12 @@
   width: 100%;
 }
 
+@media screen and (max-width: 420px) {
+  .swiper {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}
 @media screen and (max-width: 766px) {
   .swiper-slide {
     width: 350px;

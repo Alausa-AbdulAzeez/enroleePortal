@@ -178,18 +178,18 @@ const UserDetails = ({ page }) => {
   return (
     <div
       className={`p-12 max-md:p-2   ${
-        page === "Profile" ? "gap-[40px]" : "gap-[0px]"
+        page === "Profile" ? "gap-[40px] " : "gap-[0px] max-sm:gap-[20px]"
       } max-sm:mx-2 h-[calc(100%-60px)] flex flex-col overflow-auto`}
     >
       {page === "Home" && (
         <>
-          <div className="bg-white p-4 shadow-lg">
+          <div className="bg-white p-4 shadow-lg mt-3">
             <div className="">
               Dear <span className="font-bold">{userDetails?.fullName}</span> ,
             </div>
             <div className="">Welcome to Lifeworth's enrolee portal.</div>
           </div>
-          <div className=" min-h-[350px] flex justify-center max-sm:flex-col overflow-y-auto">
+          <div className=" min-h-[350px] flex justify-center max-sm:flex-col overflow-y-auto max-sm:min-h-[200px]">
             <SwiperComponent
               userDetails={userDetails}
               authCodes={authCodes}
