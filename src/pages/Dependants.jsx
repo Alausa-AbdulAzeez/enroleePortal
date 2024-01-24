@@ -149,8 +149,6 @@ const Dependants = () => {
           `https://lifeworthhmoenrolleeapp.com/api/userid/dependant?IdEmployee=${userDetails?.id}`
         )
         .then((res) => {
-          console.log(res?.data);
-          console.log(userDetails);
           setDependantsList(res?.data);
           toast.update(toastId.current, {
             render: "Dependants Fetched Sucessfully!",
@@ -227,7 +225,6 @@ const Dependants = () => {
 
   //   FUNCTION TO HANDLE DEPENDANT CREATION
   const handleDependantUpdate = async (e) => {
-    console.log(dependantToBeEditedInfo);
     e.preventDefault();
 
     toastId.current = toast("Please wait...", {

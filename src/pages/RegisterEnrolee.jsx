@@ -90,8 +90,6 @@ const RegisterEnrolee = () => {
 
   // FUNCTION TO HANDLE UPDATE OF ENROLEE'S DETAILS
   const handleUpdateEnroleeDetails = async (e) => {
-    console.log(e.target);
-    console.log(enroleesDetails);
     e.preventDefault();
 
     // Validation: Check if any field in enroleesDetails is empty
@@ -155,7 +153,6 @@ const RegisterEnrolee = () => {
         .get(`/Login/StaffID?staffid=${staffId}&companyid=${companyId}`)
         .then((res) => {
           if (res?.data.length > 0) {
-            console.log(res?.data);
             toast.update(toastId.current, {
               render: "Details fetched successfully",
               type: "success",
@@ -283,7 +280,6 @@ const RegisterEnrolee = () => {
     };
 
     checkStaffAndCompanyId();
-    console.log(staffId, companyId);
   }, [companyId, staffId]);
 
   // END OF USEEFFECT TO CHECK WHEN TO MODIFY THE SUBMIT BUTTON BASED ON THE AVAILABILITY OF THE COMPANY AND STAFF ID
