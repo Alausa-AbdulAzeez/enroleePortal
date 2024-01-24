@@ -189,7 +189,7 @@ const UserDetails = ({ page }) => {
             </div>
             <div className="">Welcome to Lifeworth's enrolee portal.</div>
           </div>
-          <div className=" min-h-[350px] flex justify-center max-sm:flex-col overflow-y-auto max-sm:min-h-[190px]">
+          <div className=" min-h-[350px] flex justify-center max-sm:flex-col overflow-y-auto max-sm:min-h-[200px]">
             <SwiperComponent
               userDetails={userDetails}
               authCodes={authCodes}
@@ -280,7 +280,7 @@ const UserDetails = ({ page }) => {
         </div>
       )}
 
-      <div className=" h-[400px] w-[100%]  max-sm:m-0  max-sm:w-[95%] min-h-[200px]">
+      <div className=" h-[400px] w-[100%]  max-sm:m-0  max-sm:w-[95%] min-h-[300px]">
         <h1 className="font-bold mb-1 text-[16px]">
           Authorization code requests
         </h1>

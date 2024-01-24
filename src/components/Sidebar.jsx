@@ -79,7 +79,7 @@ const Sidebar = () => {
         title="Logout"
       />
       <div
-        className={`absolute top-[50%] flex justify-center items-center w-3 h-[80px] rounded-full cursor-pointer bg-[#99999910] backdrop-blur-3xl z-10 ${
+        className={`absolute top-[50%] shadow-lg flex justify-center items-center w-3 h-[80px] rounded-full cursor-pointer bg-[#99999910] backdrop-blur-3xl z-10 ${
           sidebarOpen
             ? "right-[-20px]"
             : "right-[-10px] transition-all ease-in-out duration-1000"

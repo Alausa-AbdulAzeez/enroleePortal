@@ -53,7 +53,7 @@ export default function SwiperComponent({
           stretch: 0,
           depth: 100,
           modifier: 1,
-          slideShadows: true,
+          slideShadows: false,
         }}
         pagination={true}
         modules={[EffectCoverflow, Pagination]}
@@ -71,7 +71,7 @@ export default function SwiperComponent({
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl rounded-xl p-3 flex flex-col">
+          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col">
             <h3 className="font-bold text-[#a1a0a0]">
               Number of authorization code requests
             </h3>
@@ -84,7 +84,7 @@ export default function SwiperComponent({
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl rounded-xl p-3 flex flex-col">
+          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col">
             <h3 className="font-bold text-[#a1a0a0]">
               Hospital with the highest authorization code request
             </h3>
