@@ -73,12 +73,6 @@ const UserDetails = ({ page }) => {
         )
         .then((res) => {
           setAuthCodes(res?.data?.reverse());
-          toast.update(toastId.current, {
-            render: "Auth code requeats fetched sucessfully!",
-            type: "success",
-            autoClose: 2000,
-            isLoading: false,
-          });
         });
     } catch (error) {
       console.log(error);
@@ -200,9 +194,9 @@ const UserDetails = ({ page }) => {
       )}
 
       {page === "Profile" && (
-        <div className=" min-h-[350px] bg-white flex rounded-tl-[100px] max-sm:flex-col overflow-y-auto">
-          <div className=" w-[200px] h-[200px] bg-slate-100 flex items-center justify-center   rounded-full ">
-            <div className="w-[180px] h-[180px] bg-white rounded-full">
+        <div className="min-h-[350px]  flex max-sm:flex-col overflow-y-auto justify-center gap-[20px]">
+          <div className="flex flex-col backdrop-blur-sm bg-[#ffffff50] rounded-lg min-w-[300px] items-center py-5">
+            <div className="w-[150px] h-[150px]  mb-5">
               <img
                 src={
                   `https://lifeworthhmoenrolleeapp.com/image/${
@@ -214,70 +208,116 @@ const UserDetails = ({ page }) => {
                 className="w-[100%] h-[100%] object-cover rounded-full bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500"
               />
             </div>
-          </div>
-          <div className="flex flex-1 w-[70%] h-fit p-5 gap-4 flex-wrap justify-start  overflow-x-auto max-sm:w-[100%] md:flex-col lg:flex-row">
-            <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl p-3 flex flex-col">
-              <h3 className="font-bold text-gray-700">Enrolee Name</h3>
-              <p className="text-gray-500 font-semibold">
+            <div className="flex flex-col gap-[5px] items-center">
+              <p className=" font-bold text-gray-700 text-[12px]">
                 {userDetails?.name} {userDetails?.fullName}
               </p>
+              <p className="text-gray-500 font-semibold text-[12px]">
+                {userDetails?.employeeNo}{" "}
+              </p>
+              <p className="text-gray-500 font-semibold text-[12px]">
+                {userDetails?.idCompany}{" "}
+              </p>
+              <div className="rounded-lg bg-lwPurple text-white px-10 py-2">
+                {userDetails?.gender === "M" && "Male"}
+                {userDetails?.gender === "F" && "Female"}
+              </div>
             </div>
-            <div className="flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col">
-              <h3 className="font-bold text-gray-700">Gender</h3>
-              <p className="text-gray-500 font-semibold">
-                {userDetails?.gender}
-              </p>
+          </div>
+          <div className="flex flex-col rounded-lg min-w-[300px] w-[350px] backdrop-blur-sm bg-[#ffffff50] items-center py-5">
+            <div className="flex flex-col gap-[15px] w-full items-center px-5">
+              <div className="flex w-full justify-between border-b border-[#99910] text-[12px] ">
+                <h3 className="font-bold text-gray-700 mb-1">Full name</h3>
+                <p className="text-gray-500 font-semibold">
+                  {userDetails?.name} {userDetails?.fullName}
+                </p>
+              </div>
+              <div className="flex w-full justify-between border-b border-[#99910] text-[12px] ">
+                <h3 className="font-bold text-gray-700 mb-1">Enrolee ID</h3>
+                <p className="text-gray-500 font-semibold">
+                  {userDetails?.employeeNo}
+                </p>
+              </div>
+              <div className="flex w-full justify-between border-b border-[#99910] text-[12px] ">
+                <h3 className="font-bold text-gray-700 mb-1">Company name</h3>
+                <p className="text-gray-500 font-semibold">
+                  {userDetails?.idCompany}
+                </p>
+              </div>
+              <div className="flex w-full justify-between border-b border-[#99910] text-[12px] ">
+                <h3 className="font-bold text-gray-700 mb-1">Phone</h3>
+                <p className="text-gray-500 font-semibold">
+                  {userDetails?.phoneNo}
+                </p>
+              </div>
+              <div className="flex w-full justify-between border-b border-[#99910] text-[12px] ">
+                <h3 className="font-bold text-gray-700 mb-1">Phone</h3>
+                <p className="text-gray-500 font-semibold">
+                  {userDetails?.phoneNo}
+                </p>
+              </div>
             </div>
-            <div className="flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col">
-              <h3 className="font-bold text-gray-700">Plan Info</h3>
-              <p className="text-gray-500 font-semibold">
-                {bands?.map((band) => {
-                  if (band?.idProduct === userDetails?.iD_Product) {
-                    return band?.name;
-                  }
-                })}
-              </p>
-            </div>
-            <div className="flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col">
-              <h3 className="font-bold text-gray-700">HMO ID</h3>
-              <p className="text-gray-500 font-semibold">
-                {userDetails?.employeeNo}
-              </p>
-            </div>
-            {page === "Profile" && (
-              <>
-                <div className="flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col">
-                  <h3 className="font-bold text-gray-700">Company</h3>
-                  <p className="text-gray-500 font-semibold">
-                    {userDetails?.idCompany}
-                  </p>
-                </div>
-                <div className="flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col">
-                  <h3 className="font-bold text-gray-700">Phone</h3>
-                  <p className="text-gray-500 font-semibold">
-                    {userDetails?.phoneNo}
-                  </p>
-                </div>
-                {/* <div className='flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col'>
-              <h3 className='font-bold text-gray-700'>Phone Number</h3>
-              <p className='text-gray-500 font-semibold'>+234567890</p>
-            </div> */}
-                {/* <div className='flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col'>
-              <h3 className='font-bold text-gray-700'>Address</h3>
-              <p className='text-gray-500 font-semibold'>
-                175 Ikorodu-Ososun Rd, Palmgrove 102215, Lagos
-              </p>
-            </div> */}
-                {/* <div className='flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col'>
-              <h3 className='font-bold text-gray-700'>Company Address</h3>
-              <p className='text-gray-500 font-semibold'>
-                175 Ikorodu-Ososun Rd, Palmgrove 102215, Lagos
-              </p>
-            </div> */}
-              </>
-            )}
           </div>
         </div>
+        // <div className=" min-h-[350px] bg-white flex max-sm:flex-col overflow-y-auto">
+        //   <div className=" w-[200px] h-[200px] bg-slate-100 flex items-center justify-center   rounded-full ">
+        // <div className="w-[180px] h-[180px] bg-white ">
+        //   <img
+        //     src={
+        //       `https://lifeworthhmoenrolleeapp.com/image/${
+        //         userDetails?.image?.split("\\")[3]
+        //       }` ||
+        //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0EMPbKxWDxjLwlcB9ctrJv8JNvlguwjrXXn-KbUc4yg&s"
+        //     }
+        //     alt=""
+        //     className="w-[100%] h-[100%] object-cover  bg-center hover:scale-[1.1] cursor-pointer transition-all ease-in-out duration-500"
+        //   />
+        // </div>
+        //   </div>
+        //   <div className="flex flex-1 w-[70%] h-fit p-5 gap-4 flex-wrap justify-start  overflow-x-auto max-sm:w-[100%] md:flex-col lg:flex-row">
+        //     <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl p-3 flex flex-col">
+        //       <h3 className="font-bold text-gray-700">Enrolee Name</h3>
+        //       <p className="text-gray-500 font-semibold">
+        //         {userDetails?.name} {userDetails?.fullName}
+        //       </p>
+        //     </div>
+        //     <div className="flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col">
+        //       <h3 className="font-bold text-gray-700">Gender</h3>
+        //       <p className="text-gray-500 font-semibold">
+        //         {userDetails?.gender}
+        //       </p>
+        //     </div>
+        //     <div className="flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col">
+        //       <h3 className="font-bold text-gray-700">Plan Info</h3>
+        //       <p className="text-gray-500 font-semibold">
+        //         {bands?.map((band) => {
+        //           if (band?.idProduct === userDetails?.iD_Product) {
+        //             return band?.name;
+        //           }
+        //         })}
+        //       </p>
+        //     </div>
+        //     <div className="flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col">
+        //       <h3 className="font-bold text-gray-700">HMO ID</h3>
+        //       <p className="text-gray-500 font-semibold">
+        //         {userDetails?.employeeNo}
+        //       </p>
+        //     </div>
+
+        //     <div className="flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col">
+        //       <h3 className="font-bold text-gray-700">Company</h3>
+        //       <p className="text-gray-500 font-semibold">
+        //         {userDetails?.idCompany}
+        //       </p>
+        //     </div>
+        //     <div className="flex-1 max-md:min-w-[250px] min-w-[200px]  bg-slate-100 rounded-xl p-3 flex flex-col">
+        // <h3 className="font-bold text-gray-700">Phone</h3>
+        // <p className="text-gray-500 font-semibold">
+        //   {userDetails?.phoneNo}
+        // </p>
+        //     </div>
+        //   </div>
+        // </div>
       )}
 
       <div className=" h-[400px] w-[100%]  max-sm:m-0  max-sm:w-[95%] min-h-[300px]">
@@ -315,7 +355,7 @@ const UserDetails = ({ page }) => {
       </div>
 
       {page === "Profile" && (
-        <div className="w-[100%] h-[80px] bg-white max-sm:px-3  flex items-end ">
+        <div className="w-[100%] h-[80px] bg-white  flex items-end ">
           <h3 className="w-[100%] h-[60px] bg-white align-bottom font-bold text-[#424242] flex items-center justify-center ">
             To share your feedback about any hospital you've visited, please
             click
