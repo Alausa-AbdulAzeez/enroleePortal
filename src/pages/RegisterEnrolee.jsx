@@ -106,12 +106,33 @@ const RegisterEnrolee = () => {
       autoClose: false,
       isLoading: true,
     });
+
+    const formData = {
+      Surname: "",
+      Body: "",
+      EmployeeNo: "",
+      Email: enroleesDetails?.email,
+    };
+
     setBtnDisabled(true);
     try {
       await publicRequest
         .put(
           `/Login/UserUpdateonline?IdEmployee=${employeeId}`,
           enroleesDetails
+        )
+        .then(
+          async () =>
+            await axios.post(
+              "https://lifeworthhmoenrolleeapp.com/api/Mail/Sendonline",
+              formData,
+              {
+                headers: {
+                  accept: "*/*",
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            )
         )
         .then((res) => {
           toast.update(toastId.current, {

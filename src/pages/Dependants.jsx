@@ -113,12 +113,12 @@ const Dependants = () => {
       setDependantInfo((prev) => {
         return {
           ...prev,
-          relationType: data?.description,
+          relationType: data?.code,
         };
       });
     } else if (dataName === "sex") {
       setDependantInfo((prev) => {
-        return { ...prev, sex: data?.sexDescription };
+        return { ...prev, sex: data?.sexCode };
       });
     } else {
       setDependantInfo((prev) => {
@@ -192,6 +192,8 @@ const Dependants = () => {
 
     setDisableSubmitBtn(true);
 
+    console.log(dependantInfo);
+
     try {
       await publicRequest
         .post("/userid/NewDependant", dependantInfo)
@@ -233,6 +235,8 @@ const Dependants = () => {
     });
 
     setDisableSubmitBtn(true);
+    console.log(dependantToBeEditedInfo);
+    console.log(dependantToBeUpdatedInfo);
 
     try {
       await publicRequest
@@ -298,7 +302,7 @@ const Dependants = () => {
                 {updateTabActive && <Tab label="Update Dependant" value="3" />}
               </TabList>
             </Box>
-            <TabPanel value="1" sx={{ width: "100%" }}>
+            <TabPanel value="1" sx={{ width: "100%" }} className="p0">
               {dependantsList.length === 0 ? (
                 <div className="font-semibold text-left">
                   User has no Dependant
@@ -343,7 +347,7 @@ const Dependants = () => {
                             <h3 className="font-bold text-gray-700 text-[14px]">
                               Enrolee Number:
                             </h3>
-                            <p className="text-gray-500 font-semibold ml-[8px] text-[14px]">
+                            <p className="text-gray-500 font-semibold ml-[8px] text-[14px] max-md:w-[80%]">
                               {dependant?.employeeNo}
                             </p>
                           </div>
@@ -359,24 +363,28 @@ const Dependants = () => {
                 className="w-[100%] flex flex-wrap gap-5"
                 onSubmit={handleCreateDependant}
               >
-                <TextField
-                  id="outlined-password-input"
-                  label="Surname"
-                  type="text"
-                  autoComplete="current-password"
-                  size={"small"}
-                  onChange={(e) => handledependantInfo(e, "surname")}
-                  key={inputState}
-                />
-                <TextField
-                  id="outlined-password-input"
-                  label="Other Names"
-                  type="text"
-                  autoComplete="current-password"
-                  size={"small"}
-                  onChange={(e) => handledependantInfo(e, "name")}
-                  key={inputState}
-                />
+                <>
+                  <TextField
+                    id="outlined-password-input"
+                    label="Surname"
+                    type="text"
+                    autoComplete="current-password"
+                    size={"small"}
+                    onChange={(e) => handledependantInfo(e, "surname")}
+                    key={inputState}
+                  />
+                </>
+                <>
+                  <TextField
+                    id="outlined-password-input"
+                    label="Other Names"
+                    type="text"
+                    autoComplete="current-password"
+                    size={"small"}
+                    onChange={(e) => handledependantInfo(e, "name")}
+                    key={inputState}
+                  />
+                </>
                 <div className="w-[223px]">
                   <Autocomplete
                     disablePortal
