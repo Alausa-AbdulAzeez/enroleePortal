@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 const Home = () => {
   return (
     <div className="w-full h-screen flex ">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Sidebar />
       <div className="flex-1 h-[100%] max-h-[100vh] bg-slate-100 overflow-hidden ">
         <Topbar title={"Dashboard"} />

@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { publicRequest } from "../functions/requestMethods";
 import Step0 from "../components/steps/Step0";
+import axios from "axios";
 
 const RegisterEnrolee = () => {
   // STEP
@@ -92,9 +93,9 @@ const RegisterEnrolee = () => {
   const handleUpdateEnroleeDetails = async (e) => {
     e.preventDefault();
 
-    // Validation: Check if any field in enroleesDetails is empty
-    const isAnyFieldEmpty = Object.values(enroleesDetails).some(
-      (value) => value === ""
+    // Validation: Check if any field in enroleesDetails (except phoneNumber) is empty
+    const isAnyFieldEmpty = Object.keys(enroleesDetails).some(
+      (key) => key !== "phoneNo" && enroleesDetails[key] === ""
     );
 
     if (isAnyFieldEmpty) {
@@ -108,9 +109,9 @@ const RegisterEnrolee = () => {
     });
 
     const formData = {
-      Surname: "",
+      Surname: fetchedEnrolee?.surname,
       Body: "",
-      EmployeeNo: "",
+      EmployeeNo: fetchedEnrolee?.employeeNo,
       Email: enroleesDetails?.email,
     };
 
@@ -183,6 +184,7 @@ const RegisterEnrolee = () => {
             setBtnDisabled(false);
             setFoundEnrolee(true);
             setFetchedEnrolee(res?.data);
+            setStep("enroleesDetails");
             setEmployeeId(res?.data?.[0]?.idEmployee);
           } else {
             toast.update(toastId.current, {

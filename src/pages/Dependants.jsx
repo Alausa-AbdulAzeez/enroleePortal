@@ -235,8 +235,6 @@ const Dependants = () => {
     });
 
     setDisableSubmitBtn(true);
-    console.log(dependantToBeEditedInfo);
-    console.log(dependantToBeUpdatedInfo);
 
     try {
       await publicRequest
