@@ -79,7 +79,7 @@ const Step0 = ({
 
   return (
     <AnimatePresence>
-      <div className='w-full h-[calc(100vh-60px)] flex items-center justify-center'>
+      <div className=' w-full h-[calc(100vh-60px)] flex items-center justify-center'>
         <div className='bg-white w-[600px] shadow-xl text-gray-700 mx-32 max-md:mx-2 mt-5 rounded-md p-5 mb-[15px]'>
           <div className='border-b border-[#f2f2f2] pb-2 font-bold'>
             Enrolee confirmation
