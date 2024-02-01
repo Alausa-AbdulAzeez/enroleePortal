@@ -10,10 +10,17 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-datepicker/dist/react-datepicker.css";
 import { gender, relationship } from "../assets/data/Relationship.";
 import FormDialog from "../components/DeprndantUpdateDialogue";
+import axios from "axios";
 
 const Dependants = () => {
   // LOGGED IN USER DETAILS
   const userDetails = JSON.parse(sessionStorage.getItem("user"));
+
+  // BAND TYPE
+  const bandType = userDetails?.bandType;
+
+  // API HOSPITALS LIST
+  const [hospitalsList, setHospitalsList] = useState([]);
 
   // UPDATE TAB ACTIVE
   const [updateTabActive, setUpdateTabActive] = useState(false);
@@ -42,8 +49,13 @@ const Dependants = () => {
     relationType: "",
     employeeNo: userDetails?.employeeNo,
     imageFileName: "",
+    file: "",
     sex: "",
     address: "",
+    idProduct: userDetails?.iD_Product,
+    idProvder: "",
+    currentIdPolicy: userDetails?.policy,
+    statusId: "",
   });
 
   //   DEPENDANT TO BE UPDATED'S INFO
@@ -102,7 +114,7 @@ const Dependants = () => {
     const file = e.target.files[0];
     setSelectedFile(file);
     setDependantInfo((prev) => {
-      return { ...prev, imageFileName: file?.name };
+      return { ...prev, file: file };
     });
   };
   //   END OF FUNCTION FOR HANDLING FILE CHANGE
@@ -120,6 +132,10 @@ const Dependants = () => {
       setDependantInfo((prev) => {
         return { ...prev, sex: data?.sexCode };
       });
+    } else if (dataName === "hospital") {
+      setDependantInfo((prev) => {
+        return { ...prev, idProvder: data?.iD_Provider };
+      });
     } else {
       setDependantInfo((prev) => {
         return { ...prev, [dataName]: e.target.value };
@@ -127,6 +143,8 @@ const Dependants = () => {
     }
   };
   //   END OF FUNCTION TO HANDLE INPUT CHANGE
+
+  console.log(userDetails);
 
   //   FUNCTION TO HANDLE INPUT CHANGE
   const handledependantToBeUpdatedInfo = (e, dataName, data) => {
@@ -137,6 +155,27 @@ const Dependants = () => {
   //   END OF FUNCTION TO HANDLE DEPENDANT TO BE UPDATED INPUT CHANGE
 
   // FUNCTION TO GET HOSPITALS
+  const getHospitals = async () => {
+    try {
+      await publicRequest.get(`/Provider?BandType=${bandType}`).then((res) => {
+        setHospitalsList(res?.data);
+        console.log(res?.data);
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        `${
+          error?.response?.data?.title ||
+          error?.response?.data?.description ||
+          error?.message ||
+          "Something went wrong, please try again"
+        }`
+      );
+    }
+  };
+  // END OF FUNCTION TO GET HOSPITALS
+
+  // FUNCTION TO GET DEPENDANTS
   const getDependants = async () => {
     toastId.current = toast("Please wait...", {
       autoClose: false,
@@ -150,6 +189,7 @@ const Dependants = () => {
         )
         .then((res) => {
           setDependantsList(res?.data);
+          console.log(res?.data);
           toast.update(toastId.current, {
             render: "Dependants Fetched Sucessfully!",
             type: "success",
@@ -195,8 +235,17 @@ const Dependants = () => {
     console.log(dependantInfo);
 
     try {
-      await publicRequest
-        .post("/userid/NewDependant", dependantInfo)
+      await axios
+        .post(
+          "https://lifeworthhmoenrolleeapp.com/api/userid/NewDependant",
+          dependantInfo,
+          {
+            headers: {
+              accept: "*/*",
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
         .then(() => {
           toast.update(toastId.current, {
             render: "Dependant added succesfully!",
@@ -209,6 +258,7 @@ const Dependants = () => {
         });
     } catch (error) {
       console.log(error.response);
+      console.log(error);
       toast.update(toastId.current, {
         type: "error",
         autoClose: 2500,
@@ -275,9 +325,10 @@ const Dependants = () => {
   };
   //   END OF FUNCTION TO HANDLE DEPENDANT CREATION
 
-  // USE EFFECT TO CALL FUNCTION THAT FETCHES DEPENDANTS LIST AS PAGE LOADS
+  // USE EFFECT TO CALL FUNCTION THAT FETCHES DEPENDANTS LIST AND HOSPITALS LIST AS PAGE LOADS
   useEffect(() => {
     getDependants();
+    getHospitals();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -361,116 +412,135 @@ const Dependants = () => {
                 className="w-[100%] flex flex-wrap gap-5"
                 onSubmit={handleCreateDependant}
               >
-                <>
-                  <TextField
-                    id="outlined-password-input"
-                    label="Surname"
-                    type="text"
-                    autoComplete="current-password"
-                    size={"small"}
-                    onChange={(e) => handledependantInfo(e, "surname")}
-                    key={inputState}
-                  />
-                </>
-                <>
-                  <TextField
-                    id="outlined-password-input"
-                    label="Other Names"
-                    type="text"
-                    autoComplete="current-password"
-                    size={"small"}
-                    onChange={(e) => handledependantInfo(e, "name")}
-                    key={inputState}
-                  />
-                </>
-                <div className="w-[223px]">
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={relationship}
-                    key={inputState}
-                    getOptionLabel={(option) => `${option.description}`}
-                    onChange={(e, option) =>
-                      handledependantInfo(e, "relationType", option)
-                    }
-                    size={"small"}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Relationship Type" />
-                    )}
-                  />
-                </div>
-
-                <div className="w-[223px]">
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={gender}
-                    key={inputState}
-                    getOptionLabel={(option) => `${option.sexDescription}`}
-                    onChange={(e, option) =>
-                      handledependantInfo(e, "sex", option)
-                    }
-                    size={"small"}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Gender" required />
-                    )}
-                  />
-                </div>
-
-                <TextField
-                  id="outlined-password-input"
-                  label="Address"
-                  type="text"
-                  autoComplete="current-password"
-                  size={"small"}
-                  onChange={(e) => handledependantInfo(e, "address")}
-                  key={inputState}
-                />
-                <DatePicker
-                  selected={startDate}
-                  onChange={(selectedDate) =>
-                    handleDateChange(selectedDate, "creation")
-                  }
-                  dateFormat="MMMM d, yyyy"
-                  className="datePicker w-[100%] bg-slate-100 p-2 rounded-md cursor-pointer"
-                  showMonthDropdown
-                  showYearDropdown
-                  placeholderText="Date of Birth"
-                />
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">
-                    Select Image:
-                  </label>
-                  <div className="relative border border-gray-300 rounded-md p-2  min-w-[222px] w-auto">
-                    <input
-                      type="file"
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      onChange={handleFileChange}
-                      id="fileInput"
+                <div className="w-[100%] flex flex-wrap gap-5">
+                  <>
+                    <TextField
+                      id="outlined-password-input"
+                      label="Surname"
+                      type="text"
+                      autoComplete="current-password"
+                      size={"small"}
+                      onChange={(e) => handledependantInfo(e, "surname")}
+                      key={inputState}
                     />
-                    <span className="text-gray-500">
-                      {selectedFile ? selectedFile.name : "No file chosen"}
-                    </span>
-                    <div className="absolute inset-y-0 right-0 flex items-center">
-                      <button
-                        className="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-md"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          document.getElementById("fileInput").click();
-                        }}
-                      >
-                        Browse
-                      </button>
+                  </>
+                  <>
+                    <TextField
+                      id="outlined-password-input"
+                      label="Other Names"
+                      type="text"
+                      autoComplete="current-password"
+                      size={"small"}
+                      onChange={(e) => handledependantInfo(e, "name")}
+                      key={inputState}
+                    />
+                  </>
+                  <div className="w-[223px]">
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={relationship}
+                      key={inputState}
+                      getOptionLabel={(option) => `${option.description}`}
+                      onChange={(e, option) =>
+                        handledependantInfo(e, "relationType", option)
+                      }
+                      size={"small"}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Relationship Type" />
+                      )}
+                    />
+                  </div>
+
+                  <div className="w-[223px]">
+                    <Autocomplete
+                      disablePortal
+                      id="hospitalsList"
+                      options={hospitalsList}
+                      key={inputState}
+                      getOptionLabel={(option) => `${option.providerName}`}
+                      onChange={(e, option) =>
+                        handledependantInfo(e, "hospital", option)
+                      }
+                      size={"small"}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Hospital" />
+                      )}
+                    />
+                  </div>
+                  <div className="w-[223px]">
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      options={gender}
+                      key={inputState}
+                      getOptionLabel={(option) => `${option.sexDescription}`}
+                      onChange={(e, option) =>
+                        handledependantInfo(e, "sex", option)
+                      }
+                      size={"small"}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Gender" />
+                      )}
+                    />
+                  </div>
+
+                  <TextField
+                    id="outlined-password-input"
+                    label="Address"
+                    type="text"
+                    autoComplete="current-password"
+                    size={"small"}
+                    onChange={(e) => handledependantInfo(e, "address")}
+                    key={inputState}
+                  />
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(selectedDate) =>
+                      handleDateChange(selectedDate, "creation")
+                    }
+                    dateFormat="MMMM d, yyyy"
+                    className="datePicker w-[100%] bg-slate-100 p-2 rounded-md cursor-pointer"
+                    showMonthDropdown
+                    showYearDropdown
+                    placeholderText="Date of Birth"
+                  />
+                </div>
+                <div className="flex gap-10">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Select Image:
+                    </label>
+                    <div className="relative border border-gray-300 rounded-md p-2  min-w-[222px] w-auto">
+                      <input
+                        type="file"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        onChange={handleFileChange}
+                        id="fileInput"
+                      />
+                      <span className="text-gray-500">
+                        {selectedFile ? selectedFile.name : "No file chosen"}
+                      </span>
+                      <div className="absolute inset-y-0 right-0 flex items-center">
+                        <button
+                          className="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-md"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            document.getElementById("fileInput").click();
+                          }}
+                        >
+                          Browse
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  <button
+                    type="submit"
+                    className="hover:bg-lwPurple  bg-lwLightPurple text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px]"
+                  >
+                    Submit
+                  </button>
                 </div>
-                <button
-                  type="submit"
-                  className="hover:bg-lwPurple  bg-lwLightPurple text-white py-2 px-4 rounded-md h-[40px] self-end w-[120px]"
-                >
-                  Submit
-                </button>
               </form>
             </TabPanel>
             <TabPanel value="3" sx={{ width: "100%" }}>
