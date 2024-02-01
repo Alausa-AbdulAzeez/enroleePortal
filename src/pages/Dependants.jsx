@@ -52,10 +52,6 @@ const Dependants = () => {
     file: "",
     sex: "",
     address: "",
-    idProduct: userDetails?.iD_Product,
-    idProvder: "",
-    currentIdPolicy: userDetails?.policy,
-    statusId: "",
   });
 
   //   DEPENDANT TO BE UPDATED'S INFO
@@ -328,7 +324,6 @@ const Dependants = () => {
   // USE EFFECT TO CALL FUNCTION THAT FETCHES DEPENDANTS LIST AND HOSPITALS LIST AS PAGE LOADS
   useEffect(() => {
     getDependants();
-    getHospitals();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -452,22 +447,6 @@ const Dependants = () => {
                     />
                   </div>
 
-                  <div className="w-[223px]">
-                    <Autocomplete
-                      disablePortal
-                      id="hospitalsList"
-                      options={hospitalsList}
-                      key={inputState}
-                      getOptionLabel={(option) => `${option.providerName}`}
-                      onChange={(e, option) =>
-                        handledependantInfo(e, "hospital", option)
-                      }
-                      size={"small"}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Hospital" />
-                      )}
-                    />
-                  </div>
                   <div className="w-[223px]">
                     <Autocomplete
                       disablePortal
