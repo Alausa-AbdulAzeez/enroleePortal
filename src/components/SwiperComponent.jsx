@@ -63,7 +63,8 @@ export default function SwiperComponent({
           <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col max-sm:p-3">
             <h3 className="font-bold text-[#a1a0a0]">Enrolee Name</h3>
             <div className="w-[80px] h-[100px]">
-              <img src={person} alt="Person" />
+              <img src={userDetails?.image || person} alt="Person" />
+              {/* <img src={person} alt="Person" /> */}
             </div>
             <p className="text-[#000] font-semibold w-full h-full">
               {userDetails?.name} {userDetails?.fullName}
@@ -73,13 +74,13 @@ export default function SwiperComponent({
         <SwiperSlide>
           <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col">
             <h3 className="font-bold text-[#a1a0a0]">
-              Number of authorization code requests
+              Number of hospital visits
             </h3>
             <div className="w-[80px] h-[100px]">
               <img src={authRequests} alt="Person" />
             </div>
             <p className="text-[#000] font-semibold">
-              {authCodes?.length} auth code requests
+              {authCodes?.length} hospital visits
             </p>
           </div>
         </SwiperSlide>

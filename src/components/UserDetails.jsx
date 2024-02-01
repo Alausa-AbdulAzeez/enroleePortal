@@ -61,10 +61,10 @@ const UserDetails = ({ page }) => {
 
   // FUNCTION TO GET AUTH CODE REQUESTS
   const getAuthCodeRequests = async () => {
-    toastId.current = toast("Please wait...", {
-      autoClose: false,
-      isLoading: true,
-    });
+    // toastId.current = toast("Please wait...", {
+    //   autoClose: false,
+    //   isLoading: true,
+    // });
 
     try {
       await axios
@@ -322,7 +322,7 @@ const UserDetails = ({ page }) => {
 
       <div className=" h-[400px] w-[100%]  max-sm:m-0  max-sm:w-[95%] min-h-[300px]">
         <h1 className="font-bold mb-1 text-[16px]">
-          Authorization code requests
+          Record of hospitals visited
         </h1>
         <Box
           sx={{
