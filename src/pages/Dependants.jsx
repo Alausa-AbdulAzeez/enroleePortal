@@ -353,12 +353,12 @@ const Dependants = () => {
                         key={index}
                         className="max-md:min-w-[250px] min-w-[350px] max-w-[400px] h-[100px]  flex-1 max-lg:min-w-[550px]  bg-slate-100 rounded-xl py-3 flex items-center relative"
                       >
-                        <button
+                        {/* <button
                           className="absolute  bg-lwPurple bottom-2 text-xs right-4 rounded-md px-2 py-1 text-white flex items-center justify-center"
                           onClick={() => handleClickOpen(dependant)}
                         >
                           Update
-                        </button>
+                        </button> */}
                         <div className="w-[100px] h-[100px] bg-white  relative ">
                           <div className="absolute w-[100px] h-[100px] blackGradient rounded-l-xl" />
                           <img
