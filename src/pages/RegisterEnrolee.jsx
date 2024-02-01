@@ -42,8 +42,6 @@ const RegisterEnrolee = () => {
   // ENROLEE FETCHED
   const [fetchedEnrolee, setFetchedEnrolee] = useState(null);
 
-  console.log(fetchedEnrolee);
-
   // ENROLEE FETCHED
   const [enroleesDetails, setEnroleesDetails] = useState({
     address01: "",
@@ -125,7 +123,6 @@ const RegisterEnrolee = () => {
     };
 
     setBtnDisabled(true);
-    console.log(enroleesDetails);
     try {
       await axios
         .put(

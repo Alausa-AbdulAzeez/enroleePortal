@@ -62,7 +62,7 @@ const FeedbackModalComponent = ({ selectedProvider, handleClose }) => {
         handleClose();
       });
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
       toast.update(toastId.current, {
         type: "error",
         autoClose: 2500,

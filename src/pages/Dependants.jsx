@@ -140,8 +140,6 @@ const Dependants = () => {
   };
   //   END OF FUNCTION TO HANDLE INPUT CHANGE
 
-  console.log(userDetails);
-
   //   FUNCTION TO HANDLE INPUT CHANGE
   const handledependantToBeUpdatedInfo = (e, dataName, data) => {
     setDependantToBeEditedInfo((prev) => {
@@ -155,7 +153,6 @@ const Dependants = () => {
     try {
       await publicRequest.get(`/Provider?BandType=${bandType}`).then((res) => {
         setHospitalsList(res?.data);
-        console.log(res?.data);
       });
     } catch (error) {
       console.log(error);
@@ -185,7 +182,6 @@ const Dependants = () => {
         )
         .then((res) => {
           setDependantsList(res?.data);
-          console.log(res?.data);
           toast.update(toastId.current, {
             render: "Dependants Fetched Sucessfully!",
             type: "success",
@@ -227,8 +223,6 @@ const Dependants = () => {
     });
 
     setDisableSubmitBtn(true);
-
-    console.log(dependantInfo);
 
     try {
       await axios
@@ -485,8 +479,8 @@ const Dependants = () => {
                     placeholderText="Date of Birth"
                   />
                 </div>
-                <div className="flex gap-10">
-                  <div className="space-y-2">
+                <div className="flex gap-10 max-md:flex max-md:flex-col justify-center ">
+                  <div className="space-y-2 ">
                     <label className="text-sm font-medium text-gray-700">
                       Select Image:
                     </label>
