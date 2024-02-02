@@ -1,17 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState } from 'react'
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
+import 'swiper/css'
+import 'swiper/css/effect-coverflow'
+import 'swiper/css/pagination'
 
 // import "./styles.css";
 
 // import required modules
-import { EffectCoverflow, Pagination } from "swiper/modules";
-import { authRequests, hospital, person } from "../assets/images";
+import { EffectCoverflow, Pagination } from 'swiper/modules'
+import { authRequests, hospital, person } from '../assets/images'
 
 export default function SwiperComponent({
   userDetails,
@@ -20,34 +20,34 @@ export default function SwiperComponent({
 }) {
   // Use reduce to count occurrences of each idProvider
   const idProviderCount = authCodes?.reduce((acc, item) => {
-    const { idProvider } = item;
-    acc[idProvider] = (acc[idProvider] || 0) + 1;
-    return acc;
-  }, {});
+    const { idProvider } = item
+    acc[idProvider] = (acc[idProvider] || 0) + 1
+    return acc
+  }, {})
 
   // Find the idProvider with the highest count
   const mostFrequentIdProvider = Object.keys(idProviderCount).reduce(
     (maxId, id) => {
-      return idProviderCount[id] > idProviderCount[maxId] ? id : maxId;
+      return idProviderCount[id] > idProviderCount[maxId] ? id : maxId
     },
     Object.keys(idProviderCount)[0]
-  );
+  )
 
   const findNameOfMostFrequentProvider = () => {
     const foundProvider = hospitalsList?.find((singleHospital) => {
-      return singleHospital?.iD_Provider === Number(mostFrequentIdProvider);
-    });
+      return singleHospital?.iD_Provider === Number(mostFrequentIdProvider)
+    })
 
-    return foundProvider?.providerName;
-  };
+    return foundProvider?.providerName
+  }
 
   return (
-    <div className="h-[300px] overflow-auto  max-sm:h-[200px]">
+    <div className='h-[300px] overflow-auto  max-sm:h-[200px]'>
       <Swiper
-        effect={"coverflow"}
+        effect={'coverflow'}
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={"auto"}
+        slidesPerView={'auto'}
         coverflowEffect={{
           rotate: 50,
           stretch: 0,
@@ -57,51 +57,55 @@ export default function SwiperComponent({
         }}
         pagination={true}
         modules={[EffectCoverflow, Pagination]}
-        className="mySwiper"
+        className='mySwiper'
       >
         <SwiperSlide>
-          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col max-sm:p-3">
-            <h3 className="font-bold text-[#a1a0a0]">Enrolee Name</h3>
-            <div className="w-[80px] h-[100px]">
+          <div className=' max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col max-sm:p-3'>
+            <h3 className='font-bold text-[#a1a0a0]'>Enrolee Name</h3>
+            <div className='w-[80px] h-[100px]'>
               <img
-                src={userDetails?.image || person}
-                alt="Person"
-                className=" h-full object-contain"
+                src={
+                  `https://lifeworthhmoenrolleeapp.com/image/${
+                    userDetails?.image?.split('\\')[3]
+                  }` || person
+                }
+                alt='Person'
+                className=' h-full object-contain'
               />
               {/* <img src={person} alt="Person" /> */}
             </div>
-            <p className="text-[#000] font-semibold w-full h-full">
+            <p className='text-[#000] font-semibold w-full h-full'>
               {userDetails?.name} {userDetails?.fullName}
             </p>
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col">
-            <h3 className="font-bold text-[#a1a0a0]">
+          <div className=' max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col'>
+            <h3 className='font-bold text-[#a1a0a0]'>
               Number of hospital visits
             </h3>
-            <div className="w-[80px] h-[100px]">
-              <img src={authRequests} alt="Person" />
+            <div className='w-[80px] h-[100px]'>
+              <img src={authRequests} alt='Person' />
             </div>
-            <p className="text-[#000] font-semibold">
+            <p className='text-[#000] font-semibold'>
               {authCodes?.length} hospital visits
             </p>
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className=" max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col">
-            <h3 className="font-bold text-[#a1a0a0]">
+          <div className=' max-md:min-w-[250px] min-w-[200px]  flex-1 max-lg:min-w-[550px]  bg-white shadow-2xl max-sm:shadow-none rounded-xl p-3 flex flex-col'>
+            <h3 className='font-bold text-[#a1a0a0]'>
               Hospital with the highest authorization code request
             </h3>
-            <div className="w-[80px] h-[100px]">
-              <img src={hospital} alt="Hospital" />
+            <div className='w-[80px] h-[100px]'>
+              <img src={hospital} alt='Hospital' />
             </div>
-            <p className="text-[#000] font-semibold">
+            <p className='text-[#000] font-semibold'>
               {findNameOfMostFrequentProvider()}
             </p>
           </div>
         </SwiperSlide>
       </Swiper>
     </div>
-  );
+  )
 }
