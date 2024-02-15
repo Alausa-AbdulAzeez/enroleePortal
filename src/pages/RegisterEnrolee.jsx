@@ -17,6 +17,9 @@ import Step0 from "../components/steps/Step0";
 import axios from "axios";
 
 const RegisterEnrolee = () => {
+  // BAND TYPE
+  const bandType = "Band C";
+
   // STEP
   // const [step, setStep] = useState("enroleesDetails");
   const [step, setStep] = useState("enroleesDetailsCheck");
@@ -26,6 +29,9 @@ const RegisterEnrolee = () => {
 
   // BUTTON STATE
   const [btnDisabled, setBtnDisabled] = useState(true);
+
+  // API HOSPITALS LIST
+  const [hospitalsList, setHospitalsList] = useState([]);
 
   // BUTTON STATE
   const [submitFormDisabledBtn, setSubmitFormDisabledBtn] = useState(true);
@@ -54,6 +60,7 @@ const RegisterEnrolee = () => {
     bloodGroup: "",
     email: "",
     martialStatus: "",
+    idProvider: "",
   });
 
   // STAFF ID STATE
@@ -95,11 +102,16 @@ const RegisterEnrolee = () => {
   const handleUpdateEnroleeDetails = async (e) => {
     e.preventDefault();
 
-    // Validation: Check if any field in enroleesDetails (except phoneNumber) is empty
+    // Validation: Check if any field in enroleesDetails (except imageFileName, bloodGroup, and genotype) is empty
     const isAnyFieldEmpty = Object.keys(enroleesDetails).some(
-      (key) => key !== "imageFileName" && enroleesDetails[key] === ""
+      (key) =>
+        key !== "imageFileName" &&
+        key !== "bloodGroup" &&
+        key !== "genotype" &&
+        enroleesDetails[key] === ""
     );
 
+    console.log(enroleesDetails);
     // Validation: Check if any field in enroleesDetails is empty
     // const isAnyFieldEmpty = Object.values(enroleesDetails).some(
     //   (value) => value === ""
@@ -272,6 +284,7 @@ const RegisterEnrolee = () => {
             setStaffId={setStaffId}
             btnDisabled={btnDisabled}
             setBtnDisabled={setBtnDisabled}
+            hospitalsList={hospitalsList}
             handleConfirmEnroleeDetails={handleConfirmEnroleeDetails}
             handleCompanyIdAndEnroleeIdChange={
               handleCompanyIdAndEnroleeIdChange
@@ -305,6 +318,32 @@ const RegisterEnrolee = () => {
   };
   //   END OF FUNCTION TO HANDLE RENDERING OF A DIFFERENT UI BASED ON THE CURRENT STEP
 
+  // FUNCTION TO GET HOSPITALS
+  const getHospitals = async () => {
+    toastId.current = toast("Please wait...", {
+      autoClose: false,
+      isLoading: true,
+    });
+
+    try {
+      await publicRequest.get(`/Provider?BandType=${bandType}`).then((res) => {
+        setHospitalsList(res?.data);
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.response?.data?.title ||
+          error?.response?.data?.description ||
+          error?.message ||
+          "Something went wrong, please try again",
+        {
+          autoClose: 1500,
+        }
+      );
+    }
+  };
+  // END OF FUNCTION TO GET HOSPITALS
+
   // USEEFFECT TO CHECK WHEN TO MODIFY THE SUBMIT BUTTON BASED ON THE AVAILABILITY OF THE COMPANY AND STAFF ID
   useEffect(() => {
     const checkStaffAndCompanyId = () => {
@@ -319,6 +358,12 @@ const RegisterEnrolee = () => {
   }, [companyId, staffId]);
 
   // END OF USEEFFECT TO CHECK WHEN TO MODIFY THE SUBMIT BUTTON BASED ON THE AVAILABILITY OF THE COMPANY AND STAFF ID
+
+  // USE EFFECT TO CALL FUNCTION THAT FETCHES HOSPITALS LIST AS PAGE LOADS
+  useEffect(() => {
+    getHospitals();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="bg-slate-100 h-[100vh] overflow-y-auto">

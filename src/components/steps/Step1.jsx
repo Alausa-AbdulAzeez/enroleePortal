@@ -25,6 +25,7 @@ const Step1 = ({
   setBtnDisabled,
   handleConfirmEnroleeDetails,
   handleCompanyIdAndEnroleeIdChange,
+  hospitalsList,
 }) => {
   // function for handling date chande
   const handleDateChange = (selectedDate) => {
@@ -69,6 +70,10 @@ const Step1 = ({
       setEnroleesDetails((prev) => {
         return { ...prev, martialStatus: data?.code };
       });
+    } else if (dataName === "idProvider") {
+      setEnroleesDetails((prev) => {
+        return { ...prev, idProvider: data?.iD_Provider };
+      });
     } else {
       setEnroleesDetails((prev) => {
         return { ...prev, [dataName]: e.target.value };
@@ -84,7 +89,8 @@ const Step1 = ({
         <div className="mb-[20px]">
           Welcome to Lifeworth's online registration portal! We're delighted to
           have you on board. To successfully complete your registration, it's
-          important to fill in <span className="font-bold"> EVERY FIELD</span>.
+          important to fill in{" "}
+          <span className="font-bold"> ALL REQUIRED FIELDS</span>.
         </div>
         {/* <div className="flex gap-[20px] mt-[10px] max-md:flex-col">
           <TextField
@@ -183,9 +189,10 @@ const Step1 = ({
                 placeholder="Kindly attach enrolee's image"
                 onChange={handleFileChange}
                 id="fileInput"
+                required
               />
               <span className="text-gray-500">
-                {selectedFile ? selectedFile.name : "No file chosen"}
+                {selectedFile ? selectedFile.name : "No file chosen *"}
               </span>
               <div className="absolute inset-y-0 right-0 flex items-center">
                 <button
@@ -210,7 +217,22 @@ const Step1 = ({
             size={"small"}
             style={{ width: "100%" }}
             onChange={(e) => handleEnroleeInfo(e, "address01")}
+            required
             // key={inputState}
+          />
+        </div>
+        <div className="flex-1">
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={hospitalsList}
+            // key={inputState}
+            getOptionLabel={(option) => `${option.providerName}`}
+            onChange={(e, option) => handleEnroleeInfo(e, "idProvider", option)}
+            size={"small"}
+            renderInput={(params) => (
+              <TextField {...params} label="Hospital of choice" required />
+            )}
           />
         </div>
         {/* <div className="w-full flex gap-[20px] max-md:flex-col">
@@ -254,6 +276,7 @@ const Step1 = ({
               size={"small"}
               style={{ flex: 1 }}
               onChange={(e) => handleEnroleeInfo(e, "phoneNo")}
+              required
               // key={inputState}
             />
           </>
@@ -265,6 +288,7 @@ const Step1 = ({
               size={"small"}
               style={{ flex: 1 }}
               onChange={(e) => handleEnroleeInfo(e, "email")}
+              required
               // key={inputState}
             />
           </>
@@ -280,7 +304,7 @@ const Step1 = ({
               }
               size={"small"}
               renderInput={(params) => (
-                <TextField {...params} label="Marital Status" />
+                <TextField {...params} label="Marital Status" required />
               )}
             />
           </div>
@@ -329,7 +353,9 @@ const Step1 = ({
               getOptionLabel={(option) => `${option.sexDescription}`}
               onChange={(e, option) => handleEnroleeInfo(e, "sex", option)}
               size={"small"}
-              renderInput={(params) => <TextField {...params} label="Sex" />}
+              renderInput={(params) => (
+                <TextField {...params} label="Sex" required />
+              )}
             />
           </div>
           <div className="flex-1">
@@ -370,7 +396,8 @@ const Step1 = ({
               className="datePicker w-[100%] bg-slate-100 p-2 rounded-md cursor-pointer"
               showMonthDropdown
               showYearDropdown
-              placeholderText="Date of Birth"
+              placeholderText="Date of Birth *"
+              required
             />
           </div>
         </div>

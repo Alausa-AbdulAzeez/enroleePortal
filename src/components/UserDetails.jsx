@@ -250,12 +250,12 @@ const UserDetails = ({ page }) => {
                   {userDetails?.phoneNo}
                 </p>
               </div>
-              <div className="flex w-full justify-between border-b border-[#99910] text-[12px] ">
+              {/* <div className="flex w-full justify-between border-b border-[#99910] text-[12px] ">
                 <h3 className="font-bold text-gray-700 mb-1">Phone</h3>
                 <p className="text-gray-500 font-semibold">
                   {userDetails?.phoneNo}
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
