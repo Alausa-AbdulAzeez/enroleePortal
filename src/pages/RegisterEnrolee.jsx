@@ -17,9 +17,6 @@ import Step0 from "../components/steps/Step0";
 import axios from "axios";
 
 const RegisterEnrolee = () => {
-  // BAND TYPE
-  const bandType = "Band C";
-
   // STEP
   // const [step, setStep] = useState("enroleesDetails");
   const [step, setStep] = useState("enroleesDetailsCheck");
@@ -45,6 +42,9 @@ const RegisterEnrolee = () => {
   // ENROLEE FOUND STATE
   const [foundEnrole, setFoundEnrolee] = useState(false);
 
+  // BAND TYPE STATE
+  const [bandType, setBandType] = useState(null);
+
   // ENROLEE FETCHED
   const [fetchedEnrolee, setFetchedEnrolee] = useState(null);
 
@@ -68,6 +68,9 @@ const RegisterEnrolee = () => {
 
   // COMPANY ID STATE
   const [companyId, setCompanyId] = useState(null);
+
+  // COMPANY STATE
+  const [company, setCompany] = useState(null);
 
   // EMPLOYEE ID STATE
   const [employeeId, setEmployeeId] = useState(null);
@@ -111,7 +114,6 @@ const RegisterEnrolee = () => {
         enroleesDetails[key] === ""
     );
 
-    console.log(enroleesDetails);
     // Validation: Check if any field in enroleesDetails is empty
     // const isAnyFieldEmpty = Object.values(enroleesDetails).some(
     //   (value) => value === ""
@@ -132,6 +134,7 @@ const RegisterEnrolee = () => {
       Body: "",
       EmployeeNo: fetchedEnrolee?.[0]?.employeeNo,
       Email: enroleesDetails?.email,
+      Company: company?.[0]?.companyName,
     };
 
     setBtnDisabled(true);
@@ -197,31 +200,39 @@ const RegisterEnrolee = () => {
     setBtnDisabled(true);
     try {
       await publicRequest
-        .get(`/Login/StaffID?staffid=${staffId}&companyid=${companyId}`)
+        .get(`/companyid?idcompany=${companyId}`)
         .then((res) => {
-          if (res?.data.length > 0) {
-            toast.update(toastId.current, {
-              render: "Details fetched successfully",
-              type: "success",
-              autoClose: 2000,
-              isLoading: false,
+          return setCompany(res?.data);
+        })
+        .then(async () => {
+          await publicRequest
+            .get(`/Login/StaffID?staffid=${staffId}&companyid=${companyId}`)
+            .then((res) => {
+              if (res?.data.length > 0) {
+                toast.update(toastId.current, {
+                  render: "Details fetched successfully",
+                  type: "success",
+                  autoClose: 2000,
+                  isLoading: false,
+                });
+                setBtnDisabled(false);
+                setFoundEnrolee(true);
+                setFetchedEnrolee(res?.data);
+                setStep("enroleesDetails");
+                setEmployeeId(res?.data?.[0]?.idEmployee);
+              } else {
+                toast.update(toastId.current, {
+                  render:
+                    "Could not find user. Please input the correct details",
+                  type: "error",
+                  autoClose: 2000,
+                  isLoading: false,
+                });
+                setBtnDisabled(false);
+                setFoundEnrolee(false);
+                setFetchedEnrolee(null);
+              }
             });
-            setBtnDisabled(false);
-            setFoundEnrolee(true);
-            setFetchedEnrolee(res?.data);
-            setStep("enroleesDetails");
-            setEmployeeId(res?.data?.[0]?.idEmployee);
-          } else {
-            toast.update(toastId.current, {
-              render: "Could not find user. Please input the correct details",
-              type: "error",
-              autoClose: 2000,
-              isLoading: false,
-            });
-            setBtnDisabled(false);
-            setFoundEnrolee(false);
-            setFetchedEnrolee(null);
-          }
         });
     } catch (error) {
       console.log(error);
@@ -318,17 +329,38 @@ const RegisterEnrolee = () => {
   };
   //   END OF FUNCTION TO HANDLE RENDERING OF A DIFFERENT UI BASED ON THE CURRENT STEP
 
+  // FUNCTION TO GET BAND TYPE
+  const getBandType = async () => {
+    const idProduct = fetchedEnrolee?.[0]?.idProduct;
+    try {
+      const response = await publicRequest.get(
+        `/Product?ID_Product=${idProduct}`
+      );
+      return setBandType(response?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // END OF FUNCTION TO GET BAND TYPE
+
   // FUNCTION TO GET HOSPITALS
   const getHospitals = async () => {
-    toastId.current = toast("Please wait...", {
-      autoClose: false,
-      isLoading: true,
-    });
+    const idProduct = fetchedEnrolee?.[0]?.idProduct;
 
     try {
-      await publicRequest.get(`/Provider?BandType=${bandType}`).then((res) => {
-        setHospitalsList(res?.data);
-      });
+      await publicRequest
+        // GET BANDTYPE FIRST
+        .get(`/Product?ID_Product=${idProduct}`)
+        .then(async (res) => {
+          // Extract band type
+          const fetchedBandType = res?.data?.[0]?.bandType;
+          await publicRequest
+            // GET HOSPITALS
+            .get(`/Provider?BandType=${fetchedBandType || "Band C"}`)
+            .then((res) => {
+              setHospitalsList(res?.data);
+            });
+        });
     } catch (error) {
       console.log(error);
       toast.error(
@@ -363,7 +395,7 @@ const RegisterEnrolee = () => {
   useEffect(() => {
     getHospitals();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchedEnrolee]);
 
   return (
     <div className="bg-slate-100 h-[100vh] overflow-y-auto">
